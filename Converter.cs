@@ -97,6 +97,7 @@ namespace PKHeX
                             aktpkm.name = s;
                         }
                     }
+                    aktpkm.name = aktpkm.name.Trim();
                 } 
                 else if(s.Contains("Ability:"))
                 {

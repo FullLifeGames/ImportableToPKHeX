@@ -38,7 +38,6 @@
             this.button2 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.Options.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,6 +62,7 @@
             // 
             // convert
             // 
+            this.convert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.convert.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.convert.Location = new System.Drawing.Point(12, 392);
             this.convert.Name = "convert";
@@ -74,7 +74,8 @@
             // 
             // Options
             // 
-            this.Options.Controls.Add(this.button1);
+            this.Options.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Options.Controls.Add(this.radioButton2);
             this.Options.Controls.Add(this.radioButton1);
             this.Options.Controls.Add(this.button2);
@@ -138,16 +139,6 @@
             this.textBox2.Size = new System.Drawing.Size(227, 20);
             this.textBox2.TabIndex = 0;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(6, 148);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(123, 25);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Copy Gen Files";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // Converter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -157,7 +148,9 @@
             this.Controls.Add(this.convert);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "Converter";
             this.Text = "Converter";
             this.Options.ResumeLayout(false);
@@ -178,6 +171,5 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.Button button1;
     }
 }
