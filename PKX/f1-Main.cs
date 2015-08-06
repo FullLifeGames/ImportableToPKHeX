@@ -4734,6 +4734,7 @@ namespace PKHeX
                 {
                     item = "Never-Melt Ice";
                 }
+                item = item.Replace("'", "’");
                 string ability = p.ability;
                 if (ability.Equals("Lightningrod"))
                 {
