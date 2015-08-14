@@ -5352,6 +5352,10 @@ namespace PKHeX
                 {
                     TB_Friendship.Text = p.happiness;
                 }
+                else
+                {
+                    TB_Friendship.Text = "255";
+                }
 
                 if (p.nickname != null)
                 {
