@@ -189,5 +189,11 @@ namespace PKHeX
                 }
             }
         }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyValue == 65)
+                textBox1.SelectAll();   
+        }
     }
 }

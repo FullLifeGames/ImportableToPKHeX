@@ -4725,6 +4725,7 @@ namespace PKHeX
                 Util.cbItem i = null;
                 string poke = p.name;
                 poke = poke.Replace("'", "’");
+                poke = poke.Replace("-Mega", "");
                 string item = p.item;
                 if (item.Equals("BlackGlasses"))
                 {
@@ -5045,6 +5046,16 @@ namespace PKHeX
                             }
                             else
                             {
+                                int species = Util.getIndex(CB_Species);
+                                int[] mspec = {     // XY
+                                        003, 009, 065, 094, 115, 127, 130, 142, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 380, 381, 445, 448, 460, 
+                                        // ORAS
+                                        015, 018, 080, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 384, 428, 475, 531, 719,
+                                    };
+                                if (Array.IndexOf(mspec, species) > -1 || ((species == 6) || (species == 150)))
+                                {
+                                    break;
+                                }
                                 CB_Form.SelectedIndex++;
                             }                            
                         }
