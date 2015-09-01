@@ -4735,6 +4735,10 @@ namespace PKHeX
                 {
                     item = "Never-Melt Ice";
                 }
+                if (item.Equals("BrightPowder"))
+                {
+                    item = "Bright Powder";
+                }
                 item = item.Replace("'", "’");
                 string ability = p.ability;
                 if (ability.Equals("Lightningrod"))
@@ -5077,25 +5081,28 @@ namespace PKHeX
                     }
                 }
 
-                i = null;
-                foreach (Util.cbItem items in CB_Nature.Items)
+                if (nature != null)
                 {
-                    if (items.Text.Contains(nature))
+                    i = null;
+                    foreach (Util.cbItem items in CB_Nature.Items)
                     {
-                        if (i != null)
+                        if (items.Text.Contains(nature))
                         {
-                            if (i.Text.Length < items.Text.Length)
+                            if (i != null)
+                            {
+                                if (i.Text.Length < items.Text.Length)
+                                {
+                                    i = items;
+                                }
+                            }
+                            else
                             {
                                 i = items;
                             }
                         }
-                        else
-                        {
-                            i = items;
-                        }
                     }
+                    CB_Nature.SelectedItem = i;
                 }
-                CB_Nature.SelectedItem = i;
                                 
                 i = null;
                 foreach (Util.cbItem items in CB_Move1.Items)
