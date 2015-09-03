@@ -33,11 +33,20 @@
             this.label1 = new System.Windows.Forms.Label();
             this.convert = new System.Windows.Forms.Button();
             this.Options = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.maskedTextBox2 = new System.Windows.Forms.MaskedTextBox();
+            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.button2 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.Options.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -77,6 +86,15 @@
             // 
             this.Options.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.Options.Controls.Add(this.checkBox1);
+            this.Options.Controls.Add(this.button1);
+            this.Options.Controls.Add(this.label5);
+            this.Options.Controls.Add(this.textBox3);
+            this.Options.Controls.Add(this.maskedTextBox2);
+            this.Options.Controls.Add(this.maskedTextBox1);
+            this.Options.Controls.Add(this.label4);
+            this.Options.Controls.Add(this.label3);
+            this.Options.Controls.Add(this.radioButton3);
             this.Options.Controls.Add(this.radioButton2);
             this.Options.Controls.Add(this.radioButton1);
             this.Options.Controls.Add(this.button2);
@@ -89,6 +107,83 @@
             this.Options.TabStop = false;
             this.Options.Text = "Options";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(239, 207);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(53, 23);
+            this.button1.TabIndex = 14;
+            this.button1.Text = "Search";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(3, 176);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(103, 13);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Cyber Sav File Path:";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(6, 209);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(227, 20);
+            this.textBox3.TabIndex = 12;
+            // 
+            // maskedTextBox2
+            // 
+            this.maskedTextBox2.Location = new System.Drawing.Point(215, 268);
+            this.maskedTextBox2.Mask = "00";
+            this.maskedTextBox2.Name = "maskedTextBox2";
+            this.maskedTextBox2.Size = new System.Drawing.Size(22, 20);
+            this.maskedTextBox2.TabIndex = 11;
+            this.maskedTextBox2.Text = "31";
+            this.maskedTextBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.maskedTextBox2.TextChanged += new System.EventHandler(this.maskedTextBox2_TextChanged);
+            // 
+            // maskedTextBox1
+            // 
+            this.maskedTextBox1.Location = new System.Drawing.Point(134, 268);
+            this.maskedTextBox1.Mask = "00";
+            this.maskedTextBox1.Name = "maskedTextBox1";
+            this.maskedTextBox1.Size = new System.Drawing.Size(22, 20);
+            this.maskedTextBox1.TabIndex = 10;
+            this.maskedTextBox1.Text = "01";
+            this.maskedTextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.maskedTextBox1.TextChanged += new System.EventHandler(this.maskedTextBox1_TextChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(75, 242);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(162, 13);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Fill From:     Box          to        Box";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(172, 271);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(28, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "-------";
+            // 
+            // radioButton3
+            // 
+            this.radioButton3.AutoSize = true;
+            this.radioButton3.Location = new System.Drawing.Point(6, 269);
+            this.radioButton3.Name = "radioButton3";
+            this.radioButton3.Size = new System.Drawing.Size(93, 17);
+            this.radioButton3.TabIndex = 5;
+            this.radioButton3.TabStop = true;
+            this.radioButton3.Text = "Cyber Sav File";
+            this.radioButton3.UseVisualStyleBackColor = true;
+            // 
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
@@ -99,7 +194,6 @@
             this.radioButton2.TabStop = true;
             this.radioButton2.Text = "All into a Box File";
             this.radioButton2.UseVisualStyleBackColor = true;
-            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
             // radioButton1
             // 
@@ -112,7 +206,6 @@
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "Single Files";
             this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
             // button2
             // 
@@ -139,6 +232,18 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(227, 20);
             this.textBox2.TabIndex = 0;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1.Location = new System.Drawing.Point(6, 292);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(100, 17);
+            this.checkBox1.TabIndex = 15;
+            this.checkBox1.Text = "Create .bak File";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // Converter
             // 
@@ -172,5 +277,14 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.MaskedTextBox maskedTextBox2;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

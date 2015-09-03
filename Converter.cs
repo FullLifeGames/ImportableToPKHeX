@@ -19,9 +19,17 @@ namespace PKHeX
 
         private void convert_Click(object sender, EventArgs e)
         {
-            if (textBox2.Text == "")
+            if (textBox2.Text == "" && (radioButton1.Checked || radioButton2.Checked))
             {
                 MessageBox.Show("Please enter an Extract Path!");
+            }
+            else if (textBox3.Text == "" && radioButton3.Checked)
+            {
+                MessageBox.Show("Please enter an Cyber Sav File Path!");
+            }
+            else if ((maskedTextBox1.Text == "" || maskedTextBox2.Text == "") && radioButton3.Checked)
+            {
+                MessageBox.Show("Please enter valid Box numbers!");
             }
             else if (textBox1.Text == "") 
             {
@@ -39,8 +47,9 @@ namespace PKHeX
                 }
                 else
                 {
-                    Form1 form = new Form1(pokemon, textBox2.Text, radioButton1.Checked);
+                    Form1 form = new Form1(pokemon, textBox2.Text, radioButton1.Checked, textBox3.Text, radioButton3.Checked, maskedTextBox1.Text, maskedTextBox2.Text, checkBox1.Checked);
                     form.Form1_Load(null, null);
+                    MessageBox.Show("Done!");
                 }
             }
         }
@@ -56,6 +65,12 @@ namespace PKHeX
             foreach (string line in splitArray)
             {
                 string s = line;
+
+                if (s.Trim().StartsWith("==="))
+                {
+                    count++;
+                    continue;
+                }
 
                 if((line.Contains("@") || (splitArray.Length > count + 1 && splitArray[count + 1].Contains("Ability:")) || (count - 1 >= 0 && splitArray[count - 1] == "") || (count - 1 < 0)) && line.Trim() != "")
                 {
@@ -149,16 +164,6 @@ namespace PKHeX
             }
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-            radioButton2.Checked = !radioButton1.Checked;
-        }
-
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
-        {
-            radioButton1.Checked = !radioButton2.Checked;
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -195,5 +200,52 @@ namespace PKHeX
             if (e.Control && e.KeyValue == 65)
                 textBox1.SelectAll();   
         }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Title = "Cyber Sav File Path";
+            dialog.InitialDirectory = Application.StartupPath;
+            DialogResult res = dialog.ShowDialog(this);
+            if (res == DialogResult.OK)
+            {
+                textBox3.Text = dialog.FileName;
+            }
+        }
+
+        private void maskedTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (maskedTextBox1.Text != "" && maskedTextBox2.Text != "")
+            {
+                if (int.Parse(maskedTextBox1.Text) > 31)
+                {
+                    maskedTextBox1.Text = "31";
+                }
+                if (int.Parse(maskedTextBox1.Text) <= 0)
+                {
+                    maskedTextBox1.Text = "01";
+                }
+                if (int.Parse(maskedTextBox2.Text) < int.Parse(maskedTextBox1.Text))
+                {
+                    maskedTextBox1.Text = maskedTextBox2.Text;
+                }
+            }
+        }
+
+        private void maskedTextBox2_TextChanged(object sender, EventArgs e)
+        {
+            if (maskedTextBox2.Text != "" && maskedTextBox1.Text != "")
+            {
+                if (int.Parse(maskedTextBox2.Text) > 31)
+                {
+                    maskedTextBox2.Text = "31";
+                }
+                if (int.Parse(maskedTextBox2.Text) < int.Parse(maskedTextBox1.Text))
+                {
+                    maskedTextBox2.Text = maskedTextBox1.Text;
+                }
+            }
+        }
+
     }
 }
