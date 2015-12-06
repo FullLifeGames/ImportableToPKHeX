@@ -94,7 +94,7 @@ namespace PKHeX
                     if (s.Contains("("))
                     {
                         aktpkm.nickname = s.Substring(0, s.IndexOf("(")).Trim();
-                        aktpkm.name = s.Substring(s.IndexOf("(") + 1, s.IndexOf(")") - (s.IndexOf("(") + 1));
+                        aktpkm.name = s.Substring(s.LastIndexOf("(") + 1, s.LastIndexOf(")") - (s.LastIndexOf("(") + 1));
                         if (s.Contains("@"))
                         {
                             aktpkm.item = s.Substring(s.IndexOf("@") + 1).Trim();
