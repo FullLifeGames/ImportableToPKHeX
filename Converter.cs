@@ -112,7 +112,11 @@ namespace PKHeX
                             aktpkm.name = s;
                         }
                     }
-                    aktpkm.name = aktpkm.name.Trim();
+                    aktpkm.name = aktpkm.name.Trim().Replace("-Primal", "");
+                    if(aktpkm.name.Contains("-Mega"))
+                    {
+                        aktpkm.name = aktpkm.name.Substring(0, aktpkm.name.IndexOf("-Mega"));
+                    }
                 } 
                 else if(s.Contains("Ability:"))
                 {
