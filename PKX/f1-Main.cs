@@ -4824,7 +4824,7 @@ namespace PKHeX
                     hptype = move3.Substring(13);
                     move3 = "Hidden Power";
                 }
-                string move4 = (p.moves.Count > 3) ? p.moves[4] : "(None)";
+                string move4 = (p.moves.Count > 3) ? p.moves[3] : "(None)";
                 if (move4.Contains("Hidden Power"))
                 {
                     hptype = move4.Substring(13);
