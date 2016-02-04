@@ -4740,10 +4740,6 @@ namespace PKHeX
             int count = 0;
             foreach(Pokemon p in pkms)
             {
-                if (p.moves.Count != 4)
-                {
-                    continue;
-                }
                 Util.cbItem i = null;
                 string poke = p.name;
                 poke = poke.Replace("'", "’");
@@ -4810,25 +4806,25 @@ namespace PKHeX
                 }
                 string nature = p.nature;
                 string hptype = null;
-                string move1 = p.moves[0];
+                string move1 = (p.moves.Count > 0) ? p.moves[0] : "(None)";
                 if (move1.Contains("Hidden Power"))
                 {
                     hptype = move1.Substring(13);
                     move1 = "Hidden Power";
                 }
-                string move2 = p.moves[1];
+                string move2 = (p.moves.Count > 1) ? p.moves[1] : "(None)";
                 if (move2.Contains("Hidden Power"))
                 {
                     hptype = move2.Substring(13);
                     move2 = "Hidden Power";
                 }
-                string move3 = p.moves[2];
+                string move3 = (p.moves.Count > 2) ? p.moves[2] : "(None)";
                 if (move3.Contains("Hidden Power"))
                 {
                     hptype = move3.Substring(13);
                     move3 = "Hidden Power";
                 }
-                string move4 = p.moves[3];
+                string move4 = (p.moves.Count > 3) ? p.moves[4] : "(None)";
                 if (move4.Contains("Hidden Power"))
                 {
                     hptype = move4.Substring(13);
@@ -4836,7 +4832,7 @@ namespace PKHeX
                 }
 
                 //fixing double moves
-                if (move1.Equals(move2) || move1.Equals(move3) || move1.Equals(move4) || move2.Equals(move3) || move2.Equals(move4) || move3.Equals(move4))
+                if ((move1 != "(None)" && (move1.Equals(move2) || move1.Equals(move3) || move1.Equals(move4))) || (move2 != "(None)" && (move2.Equals(move3) || move2.Equals(move4))) || (move3 != "(None)" && move3.Equals(move4)))
                 {
                     continue;
                 }
@@ -5490,10 +5486,10 @@ namespace PKHeX
             string item = p.item;
             string ability = p.ability;
             string nature = p.nature;
-            string move1 = p.moves[0];
-            string move2 = p.moves[1];
-            string move3 = p.moves[2];
-            string move4 = p.moves[3];
+            string move1 = (p.moves.Count > 0) ? p.moves[0] : "(None)";
+            string move2 = (p.moves.Count > 1) ? p.moves[1] : "(None)";
+            string move3 = (p.moves.Count > 2) ? p.moves[2] : "(None)";
+            string move4 = (p.moves.Count > 3) ? p.moves[3] : "(None)";
             SavePKX.FileName = TB_Nickname.Text + " - " + TB_PID.Text;
 
             if (!extractPath.Trim().EndsWith("\\") && !extractPath.Trim().EndsWith("/"))
