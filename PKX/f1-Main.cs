@@ -4852,6 +4852,11 @@ namespace PKHeX
                     special = true;
                     mainMenuOpen(metDict["mewtwo (unnerve)"]);
                 }
+                else if(poke.Equals("Zapdos") && ability.Equals("Static"))
+                {
+                    special = true;
+                    mainMenuOpen(metDict["zapdos (static)"]);
+                }
                 else if (poke.Equals("Thundurus") && ability.Equals("Defiant"))
                 {
                     special = true;
@@ -4916,6 +4921,15 @@ namespace PKHeX
                 {
                     special = true;
                     mainMenuOpen(metDict["moltres (morning sun)"]);
+                }
+                else if (poke.Equals("Gengar") && (move1.Contains("Sludge Wave") || move2.Contains("Sludge Wave") || move3.Contains("Sludge Wave") || move4.Contains("Sludge Wave")))
+                {
+                    special = true;
+                    mainMenuOpen(metDict["gengar"]);
+                }
+                else if (poke.Equals("Gengar"))
+                {
+
                 }
                 else
                 {
