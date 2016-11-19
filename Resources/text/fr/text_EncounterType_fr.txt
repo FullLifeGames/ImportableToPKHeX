@@ -1,5 +1,5 @@
 None
-
+Rock Smash (HGSS)
 Tall Grass
 
 Dialga/Palkia
@@ -7,9 +7,10 @@ Cave/Hall of Origin
 
 Surfing/Fishing
 
-Building
+Building/Enigma Stone
 Marsh/Safari
 
+Starter/Fossil/Gift (DP)
 
 
 
@@ -20,6 +21,5 @@ Marsh/Safari
 
 
 
-
-
-Starter/Fossil/Gift
+Distortion World (Pt)
+Starter/Fossil/Gift (Pt/DP Trio)

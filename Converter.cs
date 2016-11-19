@@ -47,8 +47,9 @@ namespace PKHeX
                 }
                 else
                 {
-                    Form1 form = new Form1(pokemon, textBox2.Text, radioButton1.Checked, textBox3.Text, radioButton3.Checked, maskedTextBox1.Text, maskedTextBox2.Text, checkBox1.Checked);
+                    Main form = new Main(pokemon, textBox2.Text, radioButton1.Checked, textBox3.Text, radioButton3.Checked, maskedTextBox1.Text, maskedTextBox2.Text, checkBox1.Checked);
                     form.Form1_Load(null, null);
+                    form.Close();
                     MessageBox.Show("Done!");
                 }
             }

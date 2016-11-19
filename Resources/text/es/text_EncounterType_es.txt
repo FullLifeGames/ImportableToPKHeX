@@ -1,18 +1,16 @@
 None
-
-Tall Grass
+Golpe roca (HGSS)
+Hierba Alta
 
 Dialga/Palkia
-Cave/Hall of Origin
+Cueva/Sala del Origen
 
-Surfing/Fishing
+Surfeando/Pescando
 
-Building
-Marsh/Safari
+Edificio/Misticristal 
+Pantano/Safari
 
-
-
-
+Inicial/Fosil/Regalo (DP)
 
 
 
@@ -22,4 +20,6 @@ Marsh/Safari
 
 
 
-Starter/Fossil/Gift
+
+Mundo Distorsion (Pt)
+Inicial/Fosil/Regalo (Pt/DP Trio)
