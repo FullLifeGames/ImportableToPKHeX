@@ -33,6 +33,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.convert = new System.Windows.Forms.Button();
             this.Options = new System.Windows.Forms.GroupBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
@@ -46,8 +47,11 @@
             this.button2 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.radioButton4 = new System.Windows.Forms.RadioButton();
+            this.gen7Check = new System.Windows.Forms.RadioButton();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.Options.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBox1
@@ -86,6 +90,7 @@
             // 
             this.Options.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.Options.Controls.Add(this.groupBox1);
             this.Options.Controls.Add(this.checkBox1);
             this.Options.Controls.Add(this.button1);
             this.Options.Controls.Add(this.label5);
@@ -106,6 +111,18 @@
             this.Options.TabIndex = 3;
             this.Options.TabStop = false;
             this.Options.Text = "Options";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1.Location = new System.Drawing.Point(6, 292);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(100, 17);
+            this.checkBox1.TabIndex = 15;
+            this.checkBox1.Text = "Create .bak File";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
@@ -233,17 +250,38 @@
             this.textBox2.Size = new System.Drawing.Size(227, 20);
             this.textBox2.TabIndex = 0;
             // 
-            // checkBox1
+            // radioButton4
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = true;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(6, 292);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(100, 17);
-            this.checkBox1.TabIndex = 15;
-            this.checkBox1.Text = "Create .bak File";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.radioButton4.AutoSize = true;
+            this.radioButton4.Location = new System.Drawing.Point(12, 19);
+            this.radioButton4.Name = "radioButton4";
+            this.radioButton4.Size = new System.Drawing.Size(54, 17);
+            this.radioButton4.TabIndex = 16;
+            this.radioButton4.Text = "Gen 6";
+            this.radioButton4.UseVisualStyleBackColor = true;
+            // 
+            // radioButton5
+            // 
+            this.gen7Check.AutoSize = true;
+            this.gen7Check.Checked = true;
+            this.gen7Check.Location = new System.Drawing.Point(87, 19);
+            this.gen7Check.Name = "radioButton5";
+            this.gen7Check.Size = new System.Drawing.Size(54, 17);
+            this.gen7Check.TabIndex = 17;
+            this.gen7Check.TabStop = true;
+            this.gen7Check.Text = "Gen 7";
+            this.gen7Check.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.radioButton4);
+            this.groupBox1.Controls.Add(this.gen7Check);
+            this.groupBox1.Location = new System.Drawing.Point(75, 335);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(152, 50);
+            this.groupBox1.TabIndex = 18;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Generation Choice";
             // 
             // Converter
             // 
@@ -261,6 +299,8 @@
             this.Text = "Converter";
             this.Options.ResumeLayout(false);
             this.Options.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -286,5 +326,8 @@
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.MaskedTextBox maskedTextBox2;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton radioButton4;
+        private System.Windows.Forms.RadioButton gen7Check;
     }
 }

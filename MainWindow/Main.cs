@@ -24,8 +24,9 @@ namespace PKHeX
         private string minBox;
         private string maxBox;
         private bool bak;
+        private bool gen7;
 
-        public Main(List<Pokemon> pkms, string extractPath, bool singleFiles, string cyberSavPath, bool savExtraction, string minBox, string maxBox, bool bak)
+        public Main(List<Pokemon> pkms, string extractPath, bool singleFiles, string cyberSavPath, bool savExtraction, string minBox, string maxBox, bool bak, bool gen7)
         {
             this.pkms = pkms;
             this.extractPath = extractPath;
@@ -35,6 +36,7 @@ namespace PKHeX
             this.minBox = minBox;
             this.maxBox = maxBox;
             this.bak = bak;
+            this.gen7 = gen7;
 
             #region Initialize Form
             InitializeComponent();
@@ -4440,11 +4442,17 @@ namespace PKHeX
                         mainMenuOpen(pokegenfolder + "testrefresh.ek6");
                     }
                     else
-                    {
-                        // Gen 6
-                        // mainMenuOpen(pokegenfolder + "test.ekx.ek6");
-                        // Gen 7
-                        mainMenuOpen(pokegenfolder + "sunmoon.pk7");
+                    {                        
+                        if (gen7)
+                        {
+                            // Gen 7
+                            mainMenuOpen(pokegenfolder + "sunmoon.pk7");
+                        }
+                        else
+                        {
+                            // Gen 6
+                            mainMenuOpen(pokegenfolder + "test.ekx.ek6");
+                        }                        
                     }
                 }
 
