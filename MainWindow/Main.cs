@@ -4713,6 +4713,13 @@ namespace PKHeX
                 }
                 CB_Move4.SelectedItem = i;
 
+                // Make PP Max
+                CB_PPu1.SelectedIndex = 3;
+                CB_PPu2.SelectedIndex = 3;
+                CB_PPu3.SelectedIndex = 3;
+                CB_PPu4.SelectedIndex = 3;
+
+                // IVs
                 TB_HPIV.Text = "31";
                 TB_ATKIV.Text = "31";
                 TB_DEFIV.Text = "31";
@@ -4847,6 +4854,7 @@ namespace PKHeX
 
                 }
 
+                // EVs
                 TB_HPEV.Text = "0";
                 TB_ATKEV.Text = "0";
                 TB_DEFEV.Text = "0";
