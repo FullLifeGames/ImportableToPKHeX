@@ -4370,6 +4370,16 @@ namespace PKHeX
                     special = true;
                     mainMenuOpen(metDict["gengar"]);
                 }
+                else if(poke.Equals("Zygarde-10%"))
+                {
+                    special = true;
+                    mainMenuOpen(metDict["zygarde (10%)"]);
+                }
+                else if (poke.Equals("Type: Null"))
+                {
+                    special = true;
+                    mainMenuOpen(metDict["type null"]);
+                }
                 else if (poke.Equals("Gengar"))
                 {
 
