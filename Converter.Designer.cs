@@ -33,6 +33,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.convert = new System.Windows.Forms.Button();
             this.Options = new System.Windows.Forms.GroupBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.radioButton4 = new System.Windows.Forms.RadioButton();
+            this.gen7Check = new System.Windows.Forms.RadioButton();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
@@ -47,9 +50,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.gen7Check = new System.Windows.Forms.RadioButton();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.CB_Native = new System.Windows.Forms.CheckBox();
             this.Options.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -111,6 +112,40 @@
             this.Options.TabIndex = 3;
             this.Options.TabStop = false;
             this.Options.Text = "Options";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.CB_Native);
+            this.groupBox1.Controls.Add(this.radioButton4);
+            this.groupBox1.Controls.Add(this.gen7Check);
+            this.groupBox1.Location = new System.Drawing.Point(75, 335);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(194, 65);
+            this.groupBox1.TabIndex = 18;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Generation Choice";
+            // 
+            // radioButton4
+            // 
+            this.radioButton4.AutoSize = true;
+            this.radioButton4.Location = new System.Drawing.Point(12, 19);
+            this.radioButton4.Name = "radioButton4";
+            this.radioButton4.Size = new System.Drawing.Size(54, 17);
+            this.radioButton4.TabIndex = 16;
+            this.radioButton4.Text = "Gen 6";
+            this.radioButton4.UseVisualStyleBackColor = true;
+            // 
+            // gen7Check
+            // 
+            this.gen7Check.AutoSize = true;
+            this.gen7Check.Checked = true;
+            this.gen7Check.Location = new System.Drawing.Point(87, 19);
+            this.gen7Check.Name = "gen7Check";
+            this.gen7Check.Size = new System.Drawing.Size(54, 17);
+            this.gen7Check.TabIndex = 17;
+            this.gen7Check.TabStop = true;
+            this.gen7Check.Text = "Gen 7";
+            this.gen7Check.UseVisualStyleBackColor = true;
             // 
             // checkBox1
             // 
@@ -250,38 +285,17 @@
             this.textBox2.Size = new System.Drawing.Size(227, 20);
             this.textBox2.TabIndex = 0;
             // 
-            // radioButton4
+            // CB_Native
             // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(12, 19);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(54, 17);
-            this.radioButton4.TabIndex = 16;
-            this.radioButton4.Text = "Gen 6";
-            this.radioButton4.UseVisualStyleBackColor = true;
-            // 
-            // radioButton5
-            // 
-            this.gen7Check.AutoSize = true;
-            this.gen7Check.Checked = true;
-            this.gen7Check.Location = new System.Drawing.Point(87, 19);
-            this.gen7Check.Name = "radioButton5";
-            this.gen7Check.Size = new System.Drawing.Size(54, 17);
-            this.gen7Check.TabIndex = 17;
-            this.gen7Check.TabStop = true;
-            this.gen7Check.Text = "Gen 7";
-            this.gen7Check.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.radioButton4);
-            this.groupBox1.Controls.Add(this.gen7Check);
-            this.groupBox1.Location = new System.Drawing.Point(75, 335);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(152, 50);
-            this.groupBox1.TabIndex = 18;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Generation Choice";
+            this.CB_Native.AutoSize = true;
+            this.CB_Native.Checked = true;
+            this.CB_Native.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CB_Native.Location = new System.Drawing.Point(87, 42);
+            this.CB_Native.Name = "CB_Native";
+            this.CB_Native.Size = new System.Drawing.Size(79, 17);
+            this.CB_Native.TabIndex = 18;
+            this.CB_Native.Text = "Native only";
+            this.CB_Native.UseVisualStyleBackColor = true;
             // 
             // Converter
             // 
@@ -329,5 +343,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton radioButton4;
         private System.Windows.Forms.RadioButton gen7Check;
+        private System.Windows.Forms.CheckBox CB_Native;
     }
 }

@@ -25,8 +25,9 @@ namespace PKHeX.WinForms
         private string maxBox;
         private bool bak;
         private bool gen7;
+        private bool native;
 
-        public Main(List<Pokemon> pkms, string extractPath, bool singleFiles, string cyberSavPath, bool savExtraction, string minBox, string maxBox, bool bak, bool gen7)
+        public Main(List<Pokemon> pkms, string extractPath, bool singleFiles, string cyberSavPath, bool savExtraction, string minBox, string maxBox, bool bak, bool gen7, bool native)
         {
             this.pkms = pkms;
             this.extractPath = extractPath;
@@ -37,6 +38,7 @@ namespace PKHeX.WinForms
             this.maxBox = maxBox;
             this.bak = bak;
             this.gen7 = gen7;
+            this.native = native;
 
             #region Initialize Form
             DragInfo.slotPkmSource = SAV.BlankPKM.EncryptedPartyData;
@@ -4877,8 +4879,24 @@ namespace PKHeX.WinForms
                     {
                         if (gen7)
                         {
-                            // Gen 7
-                            mainMenuOpen(pokegenfolder + "sunmoon.pk7");
+                            if (native)
+                            {
+                                if (isPokemonGen7(poke))
+                                {
+                                    // Gen 7
+                                    mainMenuOpen(pokegenfolder + "sunmoon.pk7");
+                                }
+                                else
+                                {
+                                    // Gen 6
+                                    mainMenuOpen(pokegenfolder + "test.ekx.ek6");
+                                }
+                            }
+                            else
+                            {
+                                // Gen 7
+                                mainMenuOpen(pokegenfolder + "sunmoon.pk7");
+                            }
                         }
                         else
                         {
@@ -5386,6 +5404,38 @@ namespace PKHeX.WinForms
             }
 
             this.Close();
+        }
+
+        private bool isPokemonGen7(string poke)
+        {
+            ComboItem i = null;
+            foreach (ComboItem items in CB_Species.Items)
+            {
+                if (poke.Contains(items.Text))
+                {
+                    if (i != null)
+                    {
+                        if (i.Text.Length < items.Text.Length)
+                        {
+                            i = items;
+                        }
+                    }
+                    else
+                    {
+                        i = items;
+                    }
+                }
+            }
+            CB_Species.SelectedItem = i;
+            int index = WinFormsUtil.getIndex(CB_Species);
+            if (index >= 722)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private void mainMenuSave(Pokemon p)
