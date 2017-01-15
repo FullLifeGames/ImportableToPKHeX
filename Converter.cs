@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PKHeX.WinForms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -39,7 +40,7 @@ namespace PKHeX
             {
                 string importable = textBox1.Text;
 
-                List<Pokemon> pokemon = extractImportable(importable);
+                List<PKHeX.WinForms.Pokemon> pokemon = extractImportable(importable);
 
                 if (pokemon.Count > 30 && radioButton2.Checked)
                 {
@@ -55,9 +56,9 @@ namespace PKHeX
             }
         }
 
-        private static List<Pokemon> extractImportable(string importable)
+        private static List<PKHeX.WinForms.Pokemon> extractImportable(string importable)
         {
-            List<Pokemon> pokemon = new List<Pokemon>();
+            List<PKHeX.WinForms.Pokemon> pokemon = new List<PKHeX.WinForms.Pokemon>();
             Pokemon aktpkm = null;
             
             importable = importable.Replace("\r","");
