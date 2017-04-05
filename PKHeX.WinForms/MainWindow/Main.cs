@@ -4719,6 +4719,16 @@ namespace PKHeX.WinForms
                     special = true;
                     mainMenuOpen(metDict["mewtwo (unnerve)"]);
                 }
+                else if (poke.Equals("Jirachi") && (move1.Contains("Heart Stamp") || move2.Contains("Heart Stamp") || move3.Contains("Heart Stamp") || move4.Contains("Heart Stamp")))
+                {
+                    special = true;
+                    mainMenuOpen(metDict["jirachi (heart stamp)"]);
+                }
+                else if (poke.Equals("Jirachi") && (move1.Contains("Play Rough") || move2.Contains("Play Rough") || move3.Contains("Play Rough") || move4.Contains("Play Rough")))
+                {
+                    special = true;
+                    mainMenuOpen(metDict["jirachi (heart stamp)"]);
+                }
                 else if (poke.Equals("Zapdos") && ability.Equals("Static"))
                 {
                     special = true;
@@ -4738,6 +4748,11 @@ namespace PKHeX.WinForms
                 {
                     special = true;
                     mainMenuOpen(metDict["tauros (rock climb)"]);
+                }
+                else if (poke.Equals("Tauros") && (move1.Contains("Body Slam") || move2.Contains("Body Slam") || move3.Contains("Body Slam") || move4.Contains("Body Slam")))
+                {
+                    special = true;
+                    mainMenuOpen(metDict["tauros (body slam)"]);
                 }
                 else if (poke.Equals("Celebi") && (move1.Contains("Nasty Plot") || move2.Contains("Nasty Plot") || move3.Contains("Nasty Plot") || move4.Contains("Nasty Plot")))
                 {
