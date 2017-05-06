@@ -5280,25 +5280,18 @@ namespace PKHeX.WinForms
 
                 if (int.Parse(TB_Level.Text) == 100)
                 {
-                    pkm.HT_HP ^= true;
+                    pkm.HT_HP = (TB_HPIV.Text != "31");
                     updateIVs(TB_HPIV, e);
-                    pkm.HT_ATK ^= true;
+                    pkm.HT_ATK = (TB_ATKIV.Text != "31");
                     updateIVs(TB_ATKIV, e);
-                    pkm.HT_DEF ^= true;
+                    pkm.HT_DEF = (TB_DEFIV.Text != "31");
                     updateIVs(TB_DEFIV, e);
-                    pkm.HT_SPA ^= true;
+                    pkm.HT_SPA = (TB_SPAIV.Text != "31");
                     updateIVs(TB_SPAIV, e);
-                    pkm.HT_SPD ^= true;
+                    pkm.HT_SPD = (TB_SPDIV.Text != "31");
                     updateIVs(TB_SPDIV, e);
-                    pkm.HT_SPE ^= true;
+                    pkm.HT_SPE = (TB_SPEIV.Text != "31");
                     updateIVs(TB_SPEIV, e);
-
-                    TB_HPIV.Text = "31";
-                    TB_ATKIV.Text = "31";
-                    TB_DEFIV.Text = "31";
-                    TB_SPAIV.Text = "31";
-                    TB_SPDIV.Text = "31";
-                    TB_SPEIV.Text = "31";
 
                     if (p.ivs != null)
                     {
@@ -5308,37 +5301,37 @@ namespace PKHeX.WinForms
                         {
                             if (iv.Contains("HP"))
                             {
-                                pkm.HT_HP ^= true;
+                                pkm.HT_HP = false;
                                 updateIVs(TB_HPIV, e);
                                 TB_HPIV.Text = iv.Substring(0, iv.IndexOf("HP")).Trim();
                             }
                             else if (iv.Contains("Atk"))
                             {
-                                pkm.HT_ATK ^= true;
+                                pkm.HT_ATK = false;
                                 updateIVs(TB_ATKIV, e);
                                 TB_ATKIV.Text = iv.Substring(0, iv.IndexOf("Atk")).Trim();
                             }
                             else if (iv.Contains("Def"))
                             {
-                                pkm.HT_DEF ^= true;
+                                pkm.HT_DEF = false;
                                 updateIVs(TB_DEFIV, e);
                                 TB_DEFIV.Text = iv.Substring(0, iv.IndexOf("Def")).Trim();
                             }
                             else if (iv.Contains("SpA"))
                             {
-                                pkm.HT_SPA ^= true;
+                                pkm.HT_SPA = false;
                                 updateIVs(TB_SPAIV, e);
                                 TB_SPAIV.Text = iv.Substring(0, iv.IndexOf("SpA")).Trim();
                             }
                             else if (iv.Contains("SpD"))
                             {
-                                pkm.HT_SPD ^= true;
+                                pkm.HT_SPD = false;
                                 updateIVs(TB_SPDIV, e);
                                 TB_SPDIV.Text = iv.Substring(0, iv.IndexOf("SpD")).Trim();
                             }
                             else if (iv.Contains("Spe"))
                             {
-                                pkm.HT_SPE ^= true;
+                                pkm.HT_SPE = false;
                                 updateIVs(TB_SPEIV, e);
                                 TB_SPEIV.Text = iv.Substring(0, iv.IndexOf("Spe")).Trim();
                             }
