@@ -5278,8 +5278,21 @@ namespace PKHeX.WinForms
                     }
                 }
 
-                if (p.ivs != null)
+                if (int.Parse(TB_Level.Text) == 100)
                 {
+                    pkm.HT_HP ^= true;
+                    updateIVs(TB_HPIV, e);
+                    pkm.HT_ATK ^= true;
+                    updateIVs(TB_ATKIV, e);
+                    pkm.HT_DEF ^= true;
+                    updateIVs(TB_DEFIV, e);
+                    pkm.HT_SPA ^= true;
+                    updateIVs(TB_SPAIV, e);
+                    pkm.HT_SPD ^= true;
+                    updateIVs(TB_SPDIV, e);
+                    pkm.HT_SPE ^= true;
+                    updateIVs(TB_SPEIV, e);
+
                     TB_HPIV.Text = "31";
                     TB_ATKIV.Text = "31";
                     TB_DEFIV.Text = "31";
@@ -5287,36 +5300,87 @@ namespace PKHeX.WinForms
                     TB_SPDIV.Text = "31";
                     TB_SPEIV.Text = "31";
 
-                    string[] ivs = p.ivs.Split('/');
-
-                    foreach (string iv in ivs)
+                    if (p.ivs != null)
                     {
-                        if (iv.Contains("HP"))
-                        {
-                            TB_HPIV.Text = iv.Substring(0, iv.IndexOf("HP")).Trim();
-                        }
-                        else if (iv.Contains("Atk"))
-                        {
-                            TB_ATKIV.Text = iv.Substring(0, iv.IndexOf("Atk")).Trim();
-                        }
-                        else if (iv.Contains("Def"))
-                        {
-                            TB_DEFIV.Text = iv.Substring(0, iv.IndexOf("Def")).Trim();
-                        }
-                        else if (iv.Contains("SpA"))
-                        {
-                            TB_SPAIV.Text = iv.Substring(0, iv.IndexOf("SpA")).Trim();
-                        }
-                        else if (iv.Contains("SpD"))
-                        {
-                            TB_SPDIV.Text = iv.Substring(0, iv.IndexOf("SpD")).Trim();
-                        }
-                        else if (iv.Contains("Spe"))
-                        {
-                            TB_SPEIV.Text = iv.Substring(0, iv.IndexOf("Spe")).Trim();
-                        }
-                    }
+                        string[] ivs = p.ivs.Split('/');
 
+                        foreach (string iv in ivs)
+                        {
+                            if (iv.Contains("HP"))
+                            {
+                                pkm.HT_HP ^= true;
+                                updateIVs(TB_HPIV, e);
+                                TB_HPIV.Text = iv.Substring(0, iv.IndexOf("HP")).Trim();
+                            }
+                            else if (iv.Contains("Atk"))
+                            {
+                                pkm.HT_ATK ^= true;
+                                updateIVs(TB_ATKIV, e);
+                                TB_ATKIV.Text = iv.Substring(0, iv.IndexOf("Atk")).Trim();
+                            }
+                            else if (iv.Contains("Def"))
+                            {
+                                pkm.HT_DEF ^= true;
+                                updateIVs(TB_DEFIV, e);
+                                TB_DEFIV.Text = iv.Substring(0, iv.IndexOf("Def")).Trim();
+                            }
+                            else if (iv.Contains("SpA"))
+                            {
+                                pkm.HT_SPA ^= true;
+                                updateIVs(TB_SPAIV, e);
+                                TB_SPAIV.Text = iv.Substring(0, iv.IndexOf("SpA")).Trim();
+                            }
+                            else if (iv.Contains("SpD"))
+                            {
+                                pkm.HT_SPD ^= true;
+                                updateIVs(TB_SPDIV, e);
+                                TB_SPDIV.Text = iv.Substring(0, iv.IndexOf("SpD")).Trim();
+                            }
+                            else if (iv.Contains("Spe"))
+                            {
+                                pkm.HT_SPE ^= true;
+                                updateIVs(TB_SPEIV, e);
+                                TB_SPEIV.Text = iv.Substring(0, iv.IndexOf("Spe")).Trim();
+                            }
+                        }
+
+                    }
+                }
+                else
+                {
+                    if (p.ivs != null)
+                    {
+                        string[] ivs = p.ivs.Split('/');
+
+                        foreach (string iv in ivs)
+                        {
+                            if (iv.Contains("HP"))
+                            {
+                                TB_HPIV.Text = iv.Substring(0, iv.IndexOf("HP")).Trim();
+                            }
+                            else if (iv.Contains("Atk"))
+                            {
+                                TB_ATKIV.Text = iv.Substring(0, iv.IndexOf("Atk")).Trim();
+                            }
+                            else if (iv.Contains("Def"))
+                            {
+                                TB_DEFIV.Text = iv.Substring(0, iv.IndexOf("Def")).Trim();
+                            }
+                            else if (iv.Contains("SpA"))
+                            {
+                                TB_SPAIV.Text = iv.Substring(0, iv.IndexOf("SpA")).Trim();
+                            }
+                            else if (iv.Contains("SpD"))
+                            {
+                                TB_SPDIV.Text = iv.Substring(0, iv.IndexOf("SpD")).Trim();
+                            }
+                            else if (iv.Contains("Spe"))
+                            {
+                                TB_SPEIV.Text = iv.Substring(0, iv.IndexOf("Spe")).Trim();
+                            }
+                        }
+
+                    }
                 }
 
                 // EVs
