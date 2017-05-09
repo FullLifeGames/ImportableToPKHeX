@@ -5506,6 +5506,19 @@ namespace PKHeX.WinForms
             }
             else
             {
+                if (poke.ToLower().Contains("-alola"))
+                {
+                    if(index == 19 || index == 20 
+                        || index == 52 || index == 53 
+                        || index == 88 || index == 89 
+                        || index == 50 || index == 51 
+                        || index == 74 || index == 75 || index == 76
+                        || index == 27 || index == 28
+                        || index == 37 || index == 38)
+                    {
+                        return true;
+                    }
+                }
                 return false;
             }
         }
