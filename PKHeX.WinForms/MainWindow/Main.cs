@@ -2016,9 +2016,9 @@ namespace PKHeX.WinForms
                 if (pkm.RelearnMoves.SequenceEqual(m))
                     return;
 
-                string r = string.Join(Environment.NewLine, m.Select(v => v >= GameInfo.Strings.movelist.Length ? "ERROR" : GameInfo.Strings.movelist[v]));
-                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Apply suggested relearn moves?", r))
-                    return;
+//                string r = string.Join(Environment.NewLine, m.Select(v => v >= GameInfo.Strings.movelist.Length ? "ERROR" : GameInfo.Strings.movelist[v]));
+//                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Apply suggested relearn moves?", r))
+//                    return;
 
                 CB_RelearnMove1.SelectedValue = m[0];
                 CB_RelearnMove2.SelectedValue = m[1];
@@ -4804,6 +4804,11 @@ namespace PKHeX.WinForms
                     special = true;
                     mainMenuOpen(metDict["moltres (morning sun)"]);
                 }
+                else if (poke.Equals("Blastoise") && (move1.Contains("Celebate") || move2.Contains("Celebate") || move3.Contains("Celebate") || move4.Contains("Celebate")))
+                {
+                    special = true;
+                    mainMenuOpen(metDict["blastoise (celebrate)"]);
+                }
                 else if (poke.Equals("Gengar") && (move1.Contains("Sludge Wave") || move2.Contains("Sludge Wave") || move3.Contains("Sludge Wave") || move4.Contains("Sludge Wave")))
                 {
                     special = true;
@@ -5439,6 +5444,8 @@ namespace PKHeX.WinForms
                     CHK_Nicknamed.Checked = true;
                     TB_Nickname.Text = p.nickname;
                 }
+
+                clickMoves(GB_RelearnMoves, null);
 
                 if ((!poke.Contains("Genesect") && !(move1.Contains("Extreme Speed") || move2.Contains("Extreme Speed") || move3.Contains("Extreme Speed") || move4.Contains("Extreme Speed"))) && (!poke.Contains("Entei") && !(move1.Contains("Extreme Speed") || move2.Contains("Extreme Speed") || move3.Contains("Extreme Speed") || move4.Contains("Extreme Speed"))) && (!poke.Contains("Raikou") && !(move1.Contains("Aura Sphere") || move2.Contains("Aura Sphere") || move3.Contains("Aura Sphere") || move4.Contains("Aura Sphere"))))
                 {
