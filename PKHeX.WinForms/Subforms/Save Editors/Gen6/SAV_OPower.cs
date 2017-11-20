@@ -7,14 +7,16 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_OPower : Form
     {
-        public SAV_OPower()
+        private readonly SaveFile Origin;
+        private readonly SAV6 SAV;
+        public SAV_OPower(SaveFile sav)
         {
+            SAV = (SAV6)(Origin = sav).Clone();
             InitializeComponent();
-            WinFormsUtil.TranslateInterface(this, Main.curlanguage);
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             LoadData();
         }
 
-        private readonly SAV6 SAV = new SAV6(Main.SAV.Data);
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
@@ -31,27 +33,27 @@ namespace PKHeX.WinForms
             // Fill up the 17 o-powers
             // 1 2 3 4 5 10 use 4 bytes, everything else uses 3
             o++; // Skip first 0
-            CB_1.SelectedIndex = getIndex(o, 4); o += 4; o++; // @ 1
-            CB_2.SelectedIndex = getIndex(o, 4); o += 4; o++; // @ 6
-            CB_3.SelectedIndex = getIndex(o, 4); o += 4; o++; // @ B
-            CB_4.SelectedIndex = getIndex(o, 4); o += 4; o++; // @ 10
-            CB_5.SelectedIndex = getIndex(o, 4); o += 4; o++; // @ 15
+            CB_1.SelectedIndex = GetIndex(o, 4); o += 4; o++; // @ 1
+            CB_2.SelectedIndex = GetIndex(o, 4); o += 4; o++; // @ 6
+            CB_3.SelectedIndex = GetIndex(o, 4); o += 4; o++; // @ B
+            CB_4.SelectedIndex = GetIndex(o, 4); o += 4; o++; // @ 10
+            CB_5.SelectedIndex = GetIndex(o, 4); o += 4; o++; // @ 15
 
-            CB_6.SelectedIndex = getIndex(o, 3); o += 3; // 1A
-            CB_7.SelectedIndex = getIndex(o, 3); o += 3; // 1D
-            CB_8.SelectedIndex = getIndex(o, 3); o += 3; // 20
-            CB_9.SelectedIndex = getIndex(o, 3); o += 3; // 23
+            CB_6.SelectedIndex = GetIndex(o, 3); o += 3; // 1A
+            CB_7.SelectedIndex = GetIndex(o, 3); o += 3; // 1D
+            CB_8.SelectedIndex = GetIndex(o, 3); o += 3; // 20
+            CB_9.SelectedIndex = GetIndex(o, 3); o += 3; // 23
 
             o++;
-            CB_10.SelectedIndex = getIndex(o, 4); o += 4; o++; // @ 27-
+            CB_10.SelectedIndex = GetIndex(o, 4); o += 4; o++; // @ 27-
 
-            CB_11.SelectedIndex = getIndex(o, 3); o += 3; // 2C-2E
-            CB_12.SelectedIndex = getIndex(o, 3); o += 3; // 2F-31
-            CB_13.SelectedIndex = getIndex(o, 3); o += 3; // 32-34
-            CB_14.SelectedIndex = getIndex(o, 3); o += 3; // 35-37
-            CB_15.SelectedIndex = getIndex(o, 3); o += 3; // 38-3A
-            CB_16.SelectedIndex = getIndex(o, 3); o += 3; // 3B-3D
-            CB_17.SelectedIndex = getIndex(o, 3);//o += 3; // 3E-40
+            CB_11.SelectedIndex = GetIndex(o, 3); o += 3; // 2C-2E
+            CB_12.SelectedIndex = GetIndex(o, 3); o += 3; // 2F-31
+            CB_13.SelectedIndex = GetIndex(o, 3); o += 3; // 32-34
+            CB_14.SelectedIndex = GetIndex(o, 3); o += 3; // 35-37
+            CB_15.SelectedIndex = GetIndex(o, 3); o += 3; // 38-3A
+            CB_16.SelectedIndex = GetIndex(o, 3); o += 3; // 3B-3D
+            CB_17.SelectedIndex = GetIndex(o, 3);//o += 3; // 3E-40
 
             // Load Maxes
             o = SAV.OPower;
@@ -100,10 +102,9 @@ namespace PKHeX.WinForms
             SAV.Data[o + 0x19] = Convert.ToByte(CHK_6.Checked);
             SAV.Data[o + 0x26] = Convert.ToByte(CHK_7.Checked);
             SAV.Data[o + 0x2B] = Convert.ToByte(CHK_8.Checked);
-            Array.Copy(SAV.Data, Main.SAV.Data, SAV.Data.Length);
-            Main.SAV.Edited = true;
+            Origin.SetData(SAV.Data, 0);
         }
-        private int getIndex(int o, int l)
+        private int GetIndex(int o, int l)
         {
             byte[] _0 = { 00, 00, 00, 00, };
             byte[] _1 = { 01, 00, 00, 00, };
@@ -112,7 +113,7 @@ namespace PKHeX.WinForms
             byte[] _4 = { 01, 01, 01, 01, };
             
             byte[] data = new byte[4];
-            Array.Copy(Main.SAV.Data, o, data, 0, l);
+            Array.Copy(SAV.Data, o, data, 0, l);
 
             if (data.SequenceEqual(_4)) return 4;
             if (data.SequenceEqual(_3)) return 3;
@@ -122,13 +123,13 @@ namespace PKHeX.WinForms
         }
         private void B_AllMax_Click(object sender, EventArgs e)
         {
-            max(false);
+            SetAllMax(false);
         }
         private void B_MaxP_Click(object sender, EventArgs e)
         {
-            max(true);
+            SetAllMax(true);
         }
-        private void max(bool s)
+        private void SetAllMax(bool max)
         {
             ComboBox[] cba =
             {
@@ -140,7 +141,7 @@ namespace PKHeX.WinForms
             foreach (ComboBox t in cba)
                 t.SelectedIndex = t.Items.Count-1;
 
-            if (!s)
+            if (!max)
                 foreach (CheckBox t in echk)
                     t.Checked = ModifierKeys != Keys.Control;
             else if (ModifierKeys == Keys.Control)

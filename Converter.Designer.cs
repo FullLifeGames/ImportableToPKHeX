@@ -50,7 +50,6 @@
             this.button2 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.CB_Native = new System.Windows.Forms.CheckBox();
             this.Options.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -115,12 +114,11 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.CB_Native);
             this.groupBox1.Controls.Add(this.radioButton4);
             this.groupBox1.Controls.Add(this.gen7Check);
             this.groupBox1.Location = new System.Drawing.Point(75, 335);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(194, 65);
+            this.groupBox1.Size = new System.Drawing.Size(158, 49);
             this.groupBox1.TabIndex = 18;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Generation Choice";
@@ -285,18 +283,6 @@
             this.textBox2.Size = new System.Drawing.Size(227, 20);
             this.textBox2.TabIndex = 0;
             // 
-            // CB_Native
-            // 
-            this.CB_Native.AutoSize = true;
-            this.CB_Native.Checked = true;
-            this.CB_Native.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CB_Native.Location = new System.Drawing.Point(87, 42);
-            this.CB_Native.Name = "CB_Native";
-            this.CB_Native.Size = new System.Drawing.Size(79, 17);
-            this.CB_Native.TabIndex = 18;
-            this.CB_Native.Text = "Native only";
-            this.CB_Native.UseVisualStyleBackColor = true;
-            // 
             // Converter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -343,6 +329,5 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton radioButton4;
         private System.Windows.Forms.RadioButton gen7Check;
-        private System.Windows.Forms.CheckBox CB_Native;
     }
 }

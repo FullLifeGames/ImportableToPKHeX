@@ -6,15 +6,17 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_BerryFieldXY : Form
     {
-        public SAV_BerryFieldXY()
+        private readonly SaveFile Origin;
+        private readonly SAV6 SAV;
+        public SAV_BerryFieldXY(SaveFile sav)
         {
+            SAV = (SAV6)(Origin = sav).Clone();
             InitializeComponent();
-            WinFormsUtil.TranslateInterface(this, Main.curlanguage);
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             listBox1.SelectedIndex = 0;
         }
-        private readonly SAV6 SAV = new SAV6(Main.SAV.Data);
 
-        private void changefield(object sender, EventArgs e)
+        private void Changefield(object sender, EventArgs e)
         {
             // Change Berry Field
 

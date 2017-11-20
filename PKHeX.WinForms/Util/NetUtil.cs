@@ -1,39 +1,40 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Net;
 
-namespace PKHeX.Core
+namespace PKHeX.WinForms
 {
-    public class NetUtil
+    public static class NetUtil
     {
-        public static string getStringFromURL(string webURL)
+        public static string GetStringFromURL(string webURL)
         {
             try
             {
                 HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(webURL);
-                HttpWebResponse httpWebReponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                var reader = new StreamReader(httpWebReponse.GetResponseStream());
+                HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                var reader = new StreamReader(httpWebResponse.GetResponseStream());
                 return reader.ReadToEnd();
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Debug.WriteLine(e.Message);
                 return null;
             }
         }
-        public static Image getImageFromURL(string webURL)
+        public static Image GetImageFromURL(string webURL)
         {
             try
             {
                 HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(webURL);
-                HttpWebResponse httpWebReponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                Stream stream = httpWebReponse.GetResponseStream();
+                HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                Stream stream = httpWebResponse.GetResponseStream();
                 return stream != null ? Image.FromStream(stream) : null;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Debug.WriteLine(e.Message);
                 return null;
             }
         }

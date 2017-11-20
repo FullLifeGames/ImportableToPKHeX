@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Runtime.InteropServices;
-using PKHeX.Core.Properties;
+using PKHeX.WinForms.Properties;
 
 namespace PKHeX.WinForms
 {
@@ -20,15 +21,15 @@ namespace PKHeX.WinForms
         {
             get
             {
-                if (s_FontCollection.Families.Length == 0) setPKXFont();
+                if (s_FontCollection.Families.Length == 0) SetPKXFont();
                 return s_FontCollection.Families;
             }
         }
-        public static Font getPKXFont(float size)
+        public static Font GetPKXFont(float size)
         {
             return new Font(FontFamilies[0], size);
         }
-        private static void setPKXFont()
+        private static void SetPKXFont()
         {
             try
             {
@@ -46,7 +47,7 @@ namespace PKHeX.WinForms
 #endif
 
             }
-            catch (Exception ex) { Console.WriteLine("Unable to add ingame font: " + ex.Message); }
+            catch (Exception ex) { Debug.WriteLine($"Unable to add ingame font: {ex.Message}"); }
         }
     }
 }

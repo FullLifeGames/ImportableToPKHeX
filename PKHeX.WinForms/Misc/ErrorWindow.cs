@@ -23,12 +23,12 @@ namespace PKHeX.WinForms
             return dialogResult;
         }
 
-        public ErrorWindow()
+        private ErrorWindow()
         {
             InitializeComponent();
         }
 
-        public ErrorWindow(string lang) : this()
+        private ErrorWindow(string lang) : this()
         {
             WinFormsUtil.TranslateInterface(this, lang);
         }
@@ -38,16 +38,10 @@ namespace PKHeX.WinForms
         /// </summary>
         /// <remarks>For UI exceptions, continuing could be safe.
         /// For application exceptions, continuing is not possible, so the button should not be shown.</remarks>
-        public bool ShowContinue
+        private bool ShowContinue
         {
-            get
-            {
-                return B_Continue.Visible;
-            }
-            set
-            {
-                B_Continue.Visible = value;
-            }
+            get => B_Continue.Visible;
+            set => B_Continue.Visible = value;
         }
 
         /// <summary>
@@ -55,24 +49,15 @@ namespace PKHeX.WinForms
         /// </summary>
         /// <remarks>This property is intended to be a user-friendly context-specific message about what went wrong.
         /// For example: "An error occurred while attempting to automatically load the save file."</remarks>
-        public string Message
+        private string Message
         {
-            get
-            {
-                return L_Message.Text;
-            }
-            set
-            {
-                L_Message.Text = value;
-            }
+            get => L_Message.Text;
+            set => L_Message.Text = value;
         }
 
         public Exception Error
         {
-            get
-            {
-                return _error;
-            }
+            get => _error;
             set
             {
                 _error = value;
@@ -113,18 +98,15 @@ namespace PKHeX.WinForms
             T_ExceptionDetails.Text = details.ToString();
         }
 
-        private void btnCopyToClipboard_Click(object sender, EventArgs e)
-        {
-            Clipboard.SetText(T_ExceptionDetails.Text);
-        }
+        private void ClickCopyException(object sender, EventArgs e) => Clipboard.SetText(T_ExceptionDetails.Text);
 
-        private void B_Continue_Click(object sender, EventArgs e)
+        private void ClickContinue(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
             Close();
         }
 
-        private void B_Abort_Click(object sender, EventArgs e)
+        private void ClickAbort(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Abort;
             Close();

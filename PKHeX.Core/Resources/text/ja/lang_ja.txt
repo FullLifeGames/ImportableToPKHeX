@@ -1,0 +1,270 @@
+﻿! PKHeX Interface Customization File
+! Languages: Save this file accordingly and put it in the same folder as PKHeX's executable.
+! lang_en.txt = English
+! lang_jp.txt = Japanese
+! lang_fr.txt = French
+! lang_de.txt = German
+! lang_es.txt = Spanish
+! lang_it.txt = Italian
+! lang_ko.txt = Korean
+! lang_zh.txt = Chinese
+! lang_pt.txt = Portuguese
+! Make sure that each edit has a ' = ' between Control name and new Text!
+!
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION. Main Form (PKHeX window) below.
+! Main = PKHeX
+- Change stuff below this line, not above.
+---------------------Menu Strip------------------------
+Menu_File = ファイル
+Menu_Open = 読み込み...
+Menu_Save = 保存 PKM...
+Menu_ExportSAV = 保存 SAV...
+Menu_ExportMAIN = 保存 main
+Menu_ExportBAK = 保存 BAK
+Menu_Exit = 閉じる
+--
+Menu_Tools = ツール
+Menu_Showdown = Showdown
+Menu_ShowdownImportPKM = クリップボードから読み込む
+Menu_ShowdownExportPKM = Export Set to Clipboard
+Menu_ShowdownExportParty = Export Party to Clipboard
+Menu_ShowdownExportBattleBox = Export Battle Box to Clipboard
+Menu_Data = データ
+Menu_LoadBoxes = ロードボックス
+Menu_DumpBoxes = ダンプボックス
+Menu_Report = ボックスデータレポート
+Menu_Database = PKMデータベース
+Menu_MGDatabase = ふしぎなおくりものデータベース
+Menu_BatchEditor = バルクエディタ
+Menu_Folder = オープンフォルダ
+--
+Menu_Options = 設定
+Menu_Language = 言語
+Menu_Modify = SAVに設定
+Menu_ModifyDex = ポケモン図鑑に反映
+Menu_ModifyPKM = PKM情報の変更
+Menu_Unicode = Unicode
+Menu_About = PKHeXについて
+--------------------Context Menus----------------------
+mnuView = 見る
+mnuSet = セット
+mnuDelete = 消去
+mnu2View = 見る
+--------------------Main Tab Data----------------------
+Tab_Main = メイン
+Label_PID = 性格値
+BTN_RerollPID = 新規
+Label_Species = 種類
+CHK_Nicknamed = ニックネーム
+Label_EXP = 経験値
+Label_CurLevel = Lv
+Label_Nature = 性格
+Label_HeldItem = 持ち物
+Label_Friendship = なつき度
+Label_Form = フォルム
+Label_Ability = 特性
+Label_Language = 言語
+CHK_IsEgg = タマゴ
+CHK_Infected = 感染状態
+CHK_Cured = 抗体状態
+Label_PKRS = ポケルス
+Label_PKRSdays = 日:
+Label_Country = 国:
+Label_SubRegion = 地域:
+Label_3DSRegion = 3DS地域:
+---------------------Met Tab Data-----------------------
+Tab_Met = 出会い
+Label_OriginGame = 出身地
+Label_MetLocation = 場所
+Label_Ball = ボール
+Label_MetLevel = レベル
+Label_MetDate = 日
+Label_EncounterType = 種類
+CHK_Fateful = うんめいてきなであい
+---------------------Egg Met Data-----------------------
+CHK_AsEgg = タマゴとして
+GB_EggConditions = タマゴの孵化条件
+Label_EggLocation = 貰った場所
+Label_EggDate = 孵化した日
+--------------------Stats Tab Data----------------------
+Tab_Stats = 統計
+Label_IVs = 個体値
+Label_EVs = 努力値
+Label_Stats = 実数値
+Label_HP = HP
+Label_ATK = 攻撃
+Label_DEF = 防御
+Label_SPA = 特攻
+Label_SPD = 特防
+Label_SPE = 素早さ
+Label_Total = 合計
+Label_HiddenPowerPrefix = めざめるパワーのタイプ: 
+Label_CharacteristicPrefix = 個性: 
+BTN_RandomIVs = ランダム 個体値
+BTN_RandomEVs = ランダム 努力値
+Label_ContestStats = コンディション
+Label_Cool = かっこよさ
+Label_Beauty = うつくしさ
+Label_Cute = かわいさ
+Label_Smart = かしこさ
+Label_Clever = かしこさ
+Label_Tough = たくましさ
+Label_Sheen = けづや
+-------------------Attacks Tab Data---------------------
+Tab_Attacks = わざ
+GB_CurrentMoves = わざ
+Label_CurPP = PP
+Label_PPups = PU回数
+GB_RelearnMoves = 学び直すわざ
+-------------------OT/Misc Tab Data---------------------
+Tab_OTMisc = 親など
+GB_OT = トレーナー情報
+Label_TID = ID
+Label_SID = 裏ID
+Label_OT = おや
+GB_nOT = 現在のトレーナー
+Label_PrevOT = おや
+GB_ExtraBytes = 余分なバイト
+GB_Markings = マーキング
+BTN_Ribbons = リボン
+BTN_Medals = スーパートレーニング
+BTN_History = メモリ
+Label_EncryptionConstant = 暗号化定数
+BTN_RerollEC = 新規
+-----------------Save Data Interface--------------------
+Tab_Box = ボックス
+Tab_PartyBattle = 手持ちポケモン
+Tab_Other = その他
+Tab_SAV = SAV
+B_OpenPokePuffs = ‎ポフレ
+B_OpenItemPouch = アイテム
+B_OpenTrainerInfo = トレーナー情報
+B_OpenBoxLayout = ボックス
+B_OpenWondercards = ふしぎなカード
+B_OpenBerryField = きのみ畑
+B_OpenOPowers =  Oパワー
+B_OpenEventFlags = イベントフラグ
+B_OpenPokedex = ポケモン図鑑
+B_OpenSuperTraining = スパトレ
+--
+B_OpenSecretBase = Secret Base
+--------------------Tab Internals-----------------------
+L_Party = 手持ちポケモン
+L_BattleBox = バトルボックス
+GB_Daycare = 育て屋 
+GB_GTS = GTS
+GB_Fused = ヒューズ
+GB_SUBE = オールド·マン
+DayCare_HasEgg = タマゴがある状態
+L_DaycareSeed = シード値
+L_ReadOnlyOther = このタブは読み取り専用です
+B_JPEG = PGL 画像保存
+B_OpenHallofFame = 殿堂入り
+B_OUTPasserby = 通りすがり
+B_VerifyCHK = チェックサム
+B_SaveBoxBin = ボックスの書き出し
+L_GameSync = ゲームシンク ID:
+L_Secure1 = Secure Value 1:
+L_Secure2 = Secure Value 2:
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! RibbonEditor = Ribbon Editor
+- Change stuff below this line, not above.
+----------------------Buttons--------------------------
+BTN_All = すべてを許可する
+BTN_None = すべての取り外し
+BTN_Cancel = キャンセル
+BTN_Save = 保存
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION. 
+! SuperTrainingEditor = Medal Editor
+- Change stuff below this line, not above.
+----------------------Buttons--------------------------
+B_All = 全て取得
+B_None = 全て消去
+B_Cancel = キャンセル
+B_Save = 保存
+------------------Super Training-----------------------
+CHK_SuperTrain1_HP = ランク1: HP
+CHK_SuperTrain1_ATK = ランク1: 攻撃
+CHK_SuperTrain1_DEF = ランク1: 防御
+CHK_SuperTrain1_SPA = ランク1: 特攻
+CHK_SuperTrain1_SPD = ランク1: 特防
+CHK_SuperTrain1_SPE = ランク1: 素早さ
+CHK_SuperTrain2_HP = ランク2: HP
+CHK_SuperTrain2_ATK = ランク2: 攻撃
+CHK_SuperTrain2_DEF = ランク2: 防御
+CHK_SuperTrain2_SPA = ランク2: 特攻
+CHK_SuperTrain2_SPD = ランク2: 特防
+CHK_SuperTrain2_SPE = ランク2: 素早さ
+CHK_SuperTrain3_HP = ランク3: HP
+CHK_SuperTrain3_ATK = ランク3: 攻撃
+CHK_SuperTrain3_DEF = ランク3: 防御
+CHK_SuperTrain3_SPA = ランク3: 特攻
+CHK_SuperTrain3_SPD = ランク3: 特防
+CHK_SuperTrain3_SPE = ランク3: 素早さ
+CHK_SecretUnlocked = 秘密の訓練ロック解除
+CHK_SecretComplete = 秘密の訓練を完了
+CHK_SuperTrain4_1 = ランク4: Troubles
+CHK_SuperTrain5_1 = ランク5: Leaf
+CHK_SuperTrain5_2 = ランク5: Fire
+CHK_SuperTrain5_3 = ランク5: Water
+CHK_SuperTrain5_4 = ランク5: Fleeing
+CHK_SuperTrain6_1 = ランク6: Second
+CHK_SuperTrain6_2 = ランク6: Quick
+CHK_SuperTrain6_3 = ランク6: Long
+CHK_SuperTrain7_1 = ランク7: Scatter
+CHK_SuperTrain7_2 = ランク7: Barrage
+CHK_SuperTrain7_3 = ランク7: Hydreigon
+CHK_SuperTrain8_1 = ランク8: X/Y
+---
+L_Bag = Last Used Bag:
+L_Hits = Hits Remaining:
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION. Memories / Amie UI Below
+! MemoryAmie
+- Change stuff below this line, not above.
+---------------------Bottom UI-------------------------
+BTN_Cancel = キャンセル
+BTN_Save = 保存
+L_Handler = 現在のハンドラ
+L_Fullness = 豊かさ
+L_Enjoyment = 楽しみ
+-
+Tab_OTMemory = 現在の思い出
+L_OT_Friendship = なつき度
+L_OT_Affection = 仲の良さ
+L_OT_TextLine = メモリタイプ
+L_OT_Quality = 強度
+L_OT_Feeling = 気持ち
+Tab_CTMemory = 以前の思い出
+L_CT_Friendship = なつき度
+L_cT_Affection = あい
+L_CT_TextLine = メモリータイプ
+L_CT_Quality = 気持ちの強さ
+L_CT_Feeling = 気持ち
+Tab_Residence = ロケーション
+GB_Residence = ポケモンの出身地
+L_Geo0 = 履歴 0
+L_Geo1 = 履歴 1
+L Geo2 = 履歴 2
+L_Geo3 = 履歴 3
+L_Geo4 = 履歴 4
+L_Region = 地域
+L_Country = 国
+--
+L_Arguments = 使用禁止 ; 左はありませんでした ; OT ; 前回のゲーム ; との思い出 ; ポケモン ; エリア ; 項目 ; わざ ; 場所 ;
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! ErrorWindow = Error
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_ProvideInfo = Please provide this information when reporting this error: 
+B_CopyToClipboard = Copy to Clipboard
+B_Continue = Continue
+B_Abort = Abort
+! End

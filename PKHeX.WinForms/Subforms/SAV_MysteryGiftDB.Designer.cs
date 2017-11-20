@@ -215,7 +215,7 @@
             this.SCR_Box.Name = "SCR_Box";
             this.SCR_Box.Size = new System.Drawing.Size(24, 344);
             this.SCR_Box.TabIndex = 1;
-            this.SCR_Box.Scroll += new System.Windows.Forms.ScrollEventHandler(this.updateScroll);
+            this.SCR_Box.Scroll += new System.Windows.Forms.ScrollEventHandler(this.UpdateScroll);
             // 
             // bpkx30
             // 
@@ -899,7 +899,7 @@
             // 
             // Menu_Exit
             // 
-            this.Menu_Exit.Image = Core.Properties.Resources.exit;
+            this.Menu_Exit.Image = Properties.Resources.exit;
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.Menu_Exit.ShowShortcutKeys = false;
@@ -921,7 +921,7 @@
             // 
             this.Menu_SearchSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_SearchAdvanced});
-            this.Menu_SearchSettings.Image = Core.Properties.Resources.settings;
+            this.Menu_SearchSettings.Image = Properties.Resources.settings;
             this.Menu_SearchSettings.Name = "Menu_SearchSettings";
             this.Menu_SearchSettings.Size = new System.Drawing.Size(197, 22);
             this.Menu_SearchSettings.Text = "Search Settings";
@@ -937,15 +937,15 @@
             // 
             // Menu_OpenDB
             // 
-            this.Menu_OpenDB.Image = Core.Properties.Resources.folder;
+            this.Menu_OpenDB.Image = Properties.Resources.folder;
             this.Menu_OpenDB.Name = "Menu_OpenDB";
             this.Menu_OpenDB.Size = new System.Drawing.Size(197, 22);
             this.Menu_OpenDB.Text = "Open Database Folder";
-            this.Menu_OpenDB.Click += new System.EventHandler(this.openDB);
+            this.Menu_OpenDB.Click += new System.EventHandler(this.OpenDB);
             // 
             // Menu_Export
             // 
-            this.Menu_Export.Image = Core.Properties.Resources.export;
+            this.Menu_Export.Image = Properties.Resources.export;
             this.Menu_Export.Name = "Menu_Export";
             this.Menu_Export.Size = new System.Drawing.Size(197, 22);
             this.Menu_Export.Text = "Export Results to Folder";
@@ -964,7 +964,7 @@
             // 
             // PAN_Box
             // 
-            this.PAN_Box.BackgroundImage = Core.Properties.Resources.box_wp16xy;
+            this.PAN_Box.BackgroundImage = Properties.Resources.box_wp16xy;
             this.PAN_Box.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PAN_Box.Controls.Add(this.bpkx66);
             this.PAN_Box.Controls.Add(this.bpkx65);
@@ -1266,7 +1266,7 @@
             this.B_Reset.TabIndex = 111;
             this.B_Reset.Text = "Reset Filters";
             this.B_Reset.UseVisualStyleBackColor = true;
-            this.B_Reset.Click += new System.EventHandler(this.resetFilters);
+            this.B_Reset.Click += new System.EventHandler(this.ResetFilters);
             // 
             // L_Count
             // 
@@ -1406,19 +1406,21 @@
             this.CB_FormatComparator.Name = "CB_FormatComparator";
             this.CB_FormatComparator.Size = new System.Drawing.Size(54, 21);
             this.CB_FormatComparator.TabIndex = 122;
-            this.CB_FormatComparator.SelectedIndexChanged += new System.EventHandler(this.changeFormatFilter);
+            this.CB_FormatComparator.SelectedIndexChanged += new System.EventHandler(this.ChangeFormatFilter);
             // 
             // CB_Format
             // 
             this.CB_Format.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CB_Format.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Format.DropDownWidth = 100;
             this.CB_Format.FormattingEnabled = true;
             this.CB_Format.Items.AddRange(new object[] {
             "Any",
             ".wc7",
             ".wc6",
             ".pgf",
-            ".pcd/pgt"});
+            ".pcd/pgt/.wc4",
+            ".wc3"});
             this.CB_Format.Location = new System.Drawing.Point(54, 0);
             this.CB_Format.Margin = new System.Windows.Forms.Padding(0);
             this.CB_Format.Name = "CB_Format";

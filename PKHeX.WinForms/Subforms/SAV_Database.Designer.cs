@@ -242,7 +242,7 @@
             this.SCR_Box.Name = "SCR_Box";
             this.SCR_Box.Size = new System.Drawing.Size(24, 344);
             this.SCR_Box.TabIndex = 1;
-            this.SCR_Box.Scroll += new System.Windows.Forms.ScrollEventHandler(this.updateScroll);
+            this.SCR_Box.Scroll += new System.Windows.Forms.ScrollEventHandler(this.UpdateScroll);
             // 
             // bpkx30
             // 
@@ -926,7 +926,7 @@
             // 
             // Menu_Exit
             // 
-            this.Menu_Exit.Image = Core.Properties.Resources.exit;
+            this.Menu_Exit.Image = Properties.Resources.exit;
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.Menu_Exit.ShowShortcutKeys = false;
@@ -955,7 +955,7 @@
             this.Menu_SearchIllegal,
             this.Menu_SearchClones,
             this.Menu_SearchAdvanced});
-            this.Menu_SearchSettings.Image = Core.Properties.Resources.settings;
+            this.Menu_SearchSettings.Image = Properties.Resources.settings;
             this.Menu_SearchSettings.Name = "Menu_SearchSettings";
             this.Menu_SearchSettings.Size = new System.Drawing.Size(197, 22);
             this.Menu_SearchSettings.Text = "Search Settings";
@@ -1007,23 +1007,23 @@
             // 
             // Menu_OpenDB
             // 
-            this.Menu_OpenDB.Image = Core.Properties.Resources.folder;
+            this.Menu_OpenDB.Image = Properties.Resources.folder;
             this.Menu_OpenDB.Name = "Menu_OpenDB";
             this.Menu_OpenDB.Size = new System.Drawing.Size(197, 22);
             this.Menu_OpenDB.Text = "Open Database Folder";
-            this.Menu_OpenDB.Click += new System.EventHandler(this.openDB);
+            this.Menu_OpenDB.Click += new System.EventHandler(this.OpenDB);
             // 
             // Menu_Report
             // 
-            this.Menu_Report.Image = Core.Properties.Resources.report;
+            this.Menu_Report.Image = Properties.Resources.report;
             this.Menu_Report.Name = "Menu_Report";
             this.Menu_Report.Size = new System.Drawing.Size(197, 22);
             this.Menu_Report.Text = "Create Data Report";
-            this.Menu_Report.Click += new System.EventHandler(this.generateDBReport);
+            this.Menu_Report.Click += new System.EventHandler(this.GenerateDBReport);
             // 
             // Menu_Export
             // 
-            this.Menu_Export.Image = Core.Properties.Resources.export;
+            this.Menu_Export.Image = Properties.Resources.export;
             this.Menu_Export.Name = "Menu_Export";
             this.Menu_Export.Size = new System.Drawing.Size(197, 22);
             this.Menu_Export.Text = "Export Results to Folder";
@@ -1042,7 +1042,7 @@
             // 
             // PAN_Box
             // 
-            this.PAN_Box.BackgroundImage = Core.Properties.Resources.box_wp16xy;
+            this.PAN_Box.BackgroundImage = Properties.Resources.box_wp16xy;
             this.PAN_Box.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PAN_Box.Controls.Add(this.bpkx66);
             this.PAN_Box.Controls.Add(this.bpkx65);
@@ -1404,7 +1404,7 @@
             this.CB_GameOrigin.Name = "CB_GameOrigin";
             this.CB_GameOrigin.Size = new System.Drawing.Size(122, 21);
             this.CB_GameOrigin.TabIndex = 97;
-            this.CB_GameOrigin.SelectedIndexChanged += new System.EventHandler(this.changeGame);
+            this.CB_GameOrigin.SelectedIndexChanged += new System.EventHandler(this.ChangeGame);
             // 
             // CB_IV
             // 
@@ -1453,7 +1453,7 @@
             this.CB_Level.Name = "CB_Level";
             this.CB_Level.Size = new System.Drawing.Size(66, 21);
             this.CB_Level.TabIndex = 103;
-            this.CB_Level.SelectedIndexChanged += new System.EventHandler(this.changeLevel);
+            this.CB_Level.SelectedIndexChanged += new System.EventHandler(this.ChangeLevel);
             // 
             // L_Version
             // 
@@ -1547,7 +1547,7 @@
             this.B_Reset.TabIndex = 111;
             this.B_Reset.Text = "Reset Filters";
             this.B_Reset.UseVisualStyleBackColor = true;
-            this.B_Reset.Click += new System.EventHandler(this.resetFilters);
+            this.B_Reset.Click += new System.EventHandler(this.ResetFilters);
             // 
             // L_Count
             // 
@@ -1587,7 +1587,7 @@
             this.CB_Generation.Name = "CB_Generation";
             this.CB_Generation.Size = new System.Drawing.Size(122, 21);
             this.CB_Generation.TabIndex = 115;
-            this.CB_Generation.SelectedIndexChanged += new System.EventHandler(this.changeGeneration);
+            this.CB_Generation.SelectedIndexChanged += new System.EventHandler(this.ChangeGeneration);
             // 
             // L_Viewed
             // 
@@ -1627,7 +1627,7 @@
             this.CHK_IsEgg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CHK_IsEgg.ThreeState = true;
             this.CHK_IsEgg.UseVisualStyleBackColor = true;
-            this.CHK_IsEgg.CheckedChanged += new System.EventHandler(this.toggleESV);
+            this.CHK_IsEgg.CheckedChanged += new System.EventHandler(this.ToggleESV);
             // 
             // L_ESV
             // 
@@ -1761,7 +1761,7 @@
             this.CB_FormatComparator.Name = "CB_FormatComparator";
             this.CB_FormatComparator.Size = new System.Drawing.Size(54, 21);
             this.CB_FormatComparator.TabIndex = 122;
-            this.CB_FormatComparator.SelectedIndexChanged += new System.EventHandler(this.changeFormatFilter);
+            this.CB_FormatComparator.SelectedIndexChanged += new System.EventHandler(this.ChangeFormatFilter);
             // 
             // CB_Format
             // 
@@ -1827,7 +1827,7 @@
             // 
             // Menu_DeleteClones
             // 
-            this.Menu_DeleteClones.Image = Core.Properties.Resources.nocheck;
+            this.Menu_DeleteClones.Image = Properties.Resources.nocheck;
             this.Menu_DeleteClones.Name = "Menu_DeleteClones";
             this.Menu_DeleteClones.Size = new System.Drawing.Size(197, 22);
             this.Menu_DeleteClones.Text = "Delete Clones";

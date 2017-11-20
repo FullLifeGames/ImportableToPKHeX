@@ -9,15 +9,18 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_SecretBase : Form
     {
-        public SAV_SecretBase()
+        private readonly SaveFile Origin;
+        private readonly SAV6 SAV;
+        public SAV_SecretBase(SaveFile sav)
         {
+            SAV = (SAV6)(Origin = sav).Clone();
             InitializeComponent();
-            WinFormsUtil.TranslateInterface(this, Main.curlanguage);
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             abilitylist = GameInfo.Strings.abilitylist;
 
-            setupComboBoxes();
-            popFavorite();
-            popFavorite();
+            SetupComboBoxes();
+            PopFavorite();
+            PopFavorite();
 
             LB_Favorite.SelectedIndex = 0;
             // MT_Flags.Text = BitConverter.ToUInt16(sav, 0x24800 + 0x140).ToString(); PSS Stat transmitted
@@ -25,13 +28,12 @@ namespace PKHeX.WinForms
             B_SAV2FAV(null, null);
         }
 
-        private readonly SAV6 SAV = new SAV6(Main.SAV.Data);
         private bool editing;
         private bool loading = true;
 
-        private static string[] abilitylist;
+        private readonly string[] abilitylist;
 
-        private void setupComboBoxes()
+        private void SetupComboBoxes()
         {
             CB_Ball.DisplayMember = CB_HeldItem.DisplayMember = CB_Species.DisplayMember = CB_Nature.DisplayMember = "Text";
             CB_Ball.ValueMember = CB_HeldItem.ValueMember = CB_Species.ValueMember = CB_Nature.ValueMember = "Value";
@@ -45,7 +47,7 @@ namespace PKHeX.WinForms
             CB_Move1.DisplayMember = CB_Move2.DisplayMember = CB_Move3.DisplayMember = CB_Move4.DisplayMember = "Text";
             CB_Move1.ValueMember = CB_Move2.ValueMember = CB_Move3.ValueMember = CB_Move4.ValueMember = "Value";
 
-            var MoveList = GameInfo.MoveDataSource.Where(m => m.Value <= SAV.MaxMoveID).ToList();
+            var MoveList = GameInfo.MoveDataSource;
             CB_Move1.DataSource = new BindingSource(MoveList, null);
             CB_Move2.DataSource = new BindingSource(MoveList, null);
             CB_Move3.DataSource = new BindingSource(MoveList, null);
@@ -53,20 +55,20 @@ namespace PKHeX.WinForms
         }
 
         // Repopulation Functions
-        private void popFavorite()
+        private void PopFavorite()
         {
             LB_Favorite.Items.Clear();
 
             int playeroff = SAV.SecretBase + 0x326;
             int favoff = SAV.SecretBase + 0x63A;
             string OT = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, playeroff + 0x218, 0x1A));
-            LB_Favorite.Items.Add("* " + OT);
+            LB_Favorite.Items.Add($"* {OT}");
             for (int i = 0; i < 30; i++)
             {
                 string BaseTrainer = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, favoff + i * 0x3E0 + 0x218, 0x1A));
                 if (BaseTrainer.Length < 1 || BaseTrainer[0] == '\0')
                     BaseTrainer = "Empty";
-                LB_Favorite.Items.Add(i + " " + BaseTrainer);
+                LB_Favorite.Items.Add($"{i} {BaseTrainer}");
             }
         }
         private void B_SAV2FAV(object sender, EventArgs e)
@@ -102,7 +104,7 @@ namespace PKHeX.WinForms
                 for (int z = 0; z < 12; z++)
                     objdata[i, z] = SAV.Data[offset + 2 + 12 * i + z];
             NUD_FObject.Value = 1; // Trigger Update
-            changeObjectIndex(null, null);
+            ChangeObjectIndex(null, null);
 
             GB_PKM.Enabled = index > 0;
 
@@ -114,7 +116,7 @@ namespace PKHeX.WinForms
                         pkmdata[i, z] = SAV.Data[offset + 0x32E + 0x34 * i + z];
 
             NUD_FPKM.Value = 1;
-            changeFavPKM(null, null); // Trigger Update
+            ChangeFavPKM(null, null); // Trigger Update
 
             loading = false;
         }
@@ -175,12 +177,12 @@ namespace PKHeX.WinForms
 
             if (GB_PKM.Enabled) // Copy pkm data back in
             {
-                saveFavPKM();
+                SaveFavPKM();
                 for (int i = 0; i < 3; i++)
                     for (int z = 0; z < 0x34; z++)
                         SAV.Data[offset + 0x32E + 0x34 * i + z] = pkmdata[i, z];
             }
-            popFavorite();
+            PopFavorite();
             LB_Favorite.SelectedIndex = index;
         }
 
@@ -194,8 +196,7 @@ namespace PKHeX.WinForms
             uint flags = Util.ToUInt32(MT_Flags.Text);
             Array.Copy(BitConverter.GetBytes(flags), 0, SAV.Data, SAV.PSSStats + 0x140, 4); // write pss
             Array.Copy(BitConverter.GetBytes(flags), 0, SAV.Data, SAV.SecretBase + 0x62C, 4); // write counter
-            Main.SAV.Data = SAV.Data;
-            Main.SAV.Edited = true;
+            Origin.SetData(SAV.Data, 0);
             Close();
         }
         private void B_GiveDecor_Click(object sender, EventArgs e)
@@ -210,7 +211,7 @@ namespace PKHeX.WinForms
             }
         }
 
-        private void changeObjectIndex(object sender, EventArgs e)
+        private void ChangeObjectIndex(object sender, EventArgs e)
         {
             int objindex = (int)NUD_FObject.Value - 1;
             byte[] objinfo = new byte[12];
@@ -235,7 +236,7 @@ namespace PKHeX.WinForms
 
             editing = false;
         }
-        private void changeObjectQuality(object sender, EventArgs e)
+        private void ChangeObjectQuality(object sender, EventArgs e)
         {
             if (editing) return;
 
@@ -253,42 +254,42 @@ namespace PKHeX.WinForms
         }
 
         private int currentpkm;
-        private void changeFavPKM(object sender, EventArgs e)
+        private void ChangeFavPKM(object sender, EventArgs e)
         {
             int index = (int)NUD_FPKM.Value;
-            saveFavPKM(); // Save existing PKM
+            SaveFavPKM(); // Save existing PKM
             currentpkm = index;
-            loadFavPKM();
+            LoadFavPKM();
         }
-        private void saveFavPKM()
+        private void SaveFavPKM()
         {
             if (loading || !GB_PKM.Enabled) return;
             int index = currentpkm;
             byte[] pkm = new byte[0x34];
 
-            BitConverter.GetBytes(Util.getHEXval(TB_EC.Text)).CopyTo(pkm, 0);
-            BitConverter.GetBytes((ushort)WinFormsUtil.getIndex(CB_Species)).CopyTo(pkm, 8);
-            BitConverter.GetBytes((ushort)WinFormsUtil.getIndex(CB_HeldItem)).CopyTo(pkm, 0xA);
+            BitConverter.GetBytes(Util.GetHexValue(TB_EC.Text)).CopyTo(pkm, 0);
+            BitConverter.GetBytes((ushort)WinFormsUtil.GetIndex(CB_Species)).CopyTo(pkm, 8);
+            BitConverter.GetBytes((ushort)WinFormsUtil.GetIndex(CB_HeldItem)).CopyTo(pkm, 0xA);
             pkm[0xC] = (byte)Array.IndexOf(abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
             pkm[0xD] = (byte)(CB_Ability.SelectedIndex << 1);
-            pkm[0x14] = (byte)WinFormsUtil.getIndex(CB_Nature);
+            pkm[0x14] = (byte)WinFormsUtil.GetIndex(CB_Nature);
 
             int fegform = 0;
-            fegform += PKX.getGender(Label_Gender.Text) << 1;
+            fegform += PKX.GetGenderFromString(Label_Gender.Text) << 1;
             fegform += CB_Form.SelectedIndex << 3;
             pkm[0x15] = (byte)fegform;
 
-            pkm[0x16] = (byte)Math.Min(Convert.ToInt32( TB_HPEV.Text), 252);
+            pkm[0x16] = (byte)Math.Min(Convert.ToInt32(TB_HPEV.Text), 252);
             pkm[0x17] = (byte)Math.Min(Convert.ToInt32(TB_ATKEV.Text), 252);
             pkm[0x18] = (byte)Math.Min(Convert.ToInt32(TB_DEFEV.Text), 252);
             pkm[0x19] = (byte)Math.Min(Convert.ToInt32(TB_SPAEV.Text), 252);
             pkm[0x1A] = (byte)Math.Min(Convert.ToInt32(TB_SPDEV.Text), 252);
             pkm[0x1B] = (byte)Math.Min(Convert.ToInt32(TB_SPEEV.Text), 252);
 
-            BitConverter.GetBytes((ushort)WinFormsUtil.getIndex(CB_Move1)).CopyTo(pkm, 0x1C);
-            BitConverter.GetBytes((ushort)WinFormsUtil.getIndex(CB_Move2)).CopyTo(pkm, 0x1E);
-            BitConverter.GetBytes((ushort)WinFormsUtil.getIndex(CB_Move3)).CopyTo(pkm, 0x20);
-            BitConverter.GetBytes((ushort)WinFormsUtil.getIndex(CB_Move4)).CopyTo(pkm, 0x22);
+            BitConverter.GetBytes((ushort)WinFormsUtil.GetIndex(CB_Move1)).CopyTo(pkm, 0x1C);
+            BitConverter.GetBytes((ushort)WinFormsUtil.GetIndex(CB_Move2)).CopyTo(pkm, 0x1E);
+            BitConverter.GetBytes((ushort)WinFormsUtil.GetIndex(CB_Move3)).CopyTo(pkm, 0x20);
+            BitConverter.GetBytes((ushort)WinFormsUtil.GetIndex(CB_Move4)).CopyTo(pkm, 0x22);
             
             pkm[0x24] = (byte)CB_PPu1.SelectedIndex;
             pkm[0x25] = (byte)CB_PPu2.SelectedIndex;
@@ -305,13 +306,13 @@ namespace PKHeX.WinForms
             pkm[0x2D] |= (byte)shiny;
 
             pkm[0x2E] = Convert.ToByte(TB_Friendship.Text);
-            pkm[0x2F] = (byte)WinFormsUtil.getIndex(CB_Ball);
+            pkm[0x2F] = (byte)WinFormsUtil.GetIndex(CB_Ball);
             pkm[0x30] = Convert.ToByte(TB_Level.Text);
 
             for (int i = 0; i < 0x34; i++) // Copy data back to storage.
                 pkmdata[index - 1, i] = pkm[i];
         }
-        private void loadFavPKM()
+        private void LoadFavPKM()
         {
             int index = currentpkm - 1;
             byte[] fpkm = new byte[0x34];
@@ -330,7 +331,7 @@ namespace PKHeX.WinForms
             int nature = fpkm[0x14];
             byte genform = fpkm[0x15];
             genderflag = genform >> 1 & 0x3;
-            setGenderLabel();
+            SetGenderLabel();
 
             byte HP_EV = fpkm[0x16];
             byte AT_EV = fpkm[0x17];
@@ -400,20 +401,20 @@ namespace PKHeX.WinForms
             CHK_Shiny.Checked = isshiny;
 
             // Set Form
-            setForms();
+            SetForms();
             int form = genform >> 3;
             CB_Form.SelectedIndex = form;
 
             // Set Ability
-            setAbilityList();
+            SetAbilityList();
         }
 
-        private void setAbilityList()
+        private void SetAbilityList()
         {
             int newabil = Convert.ToInt16(MT_AbilNo.Text) >> 1;
-            int species = WinFormsUtil.getIndex(CB_Species);
+            int species = WinFormsUtil.GetIndex(CB_Species);
             int formnum = CB_Form.SelectedIndex;
-            int[] abils = PersonalTable.AO.getAbilities(species, formnum);
+            int[] abils = PersonalTable.AO.GetAbilities(species, formnum);
 
             // Build Ability List
             List<string> ability_list = new List<string>
@@ -427,25 +428,25 @@ namespace PKHeX.WinForms
             CB_Ability.SelectedIndex = newabil < 3 ? newabil : 0;
         }
 
-        private void setForms()
+        private void SetForms()
         {
-            int species = WinFormsUtil.getIndex(CB_Species);
+            int species = WinFormsUtil.GetIndex(CB_Species);
             bool hasForms = PersonalTable.AO[species].HasFormes || new[] { 664, 665, 414 }.Contains(species);
             CB_Form.Enabled = CB_Form.Visible = hasForms;
 
             CB_Form.DisplayMember = "Text";
             CB_Form.ValueMember = "Value";
-            CB_Form.DataSource = PKX.getFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.gendersymbols).ToList();
+            CB_Form.DataSource = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols).ToList();
         }
 
-        private void updateSpecies(object sender, EventArgs e)
+        private void UpdateSpecies(object sender, EventArgs e)
         {
             // Get Forms for Given Species
-            setForms();
+            SetForms();
 
             // Check for Gender Changes
             // Get Gender Threshold
-            int gt = SAV.Personal[WinFormsUtil.getIndex(CB_Species)].Gender;
+            int gt = SAV.Personal[WinFormsUtil.GetIndex(CB_Species)].Gender;
 
             if (gt == 255)      // Genderless
                 genderflag = 2;
@@ -454,33 +455,33 @@ namespace PKHeX.WinForms
             else if (gt == 0) // Male Only
                 genderflag = 0;
 
-            setGenderLabel();
-            setAbilityList();
+            SetGenderLabel();
+            SetAbilityList();
         }
-        private void updateForm(object sender, EventArgs e)
+        private void UpdateForm(object sender, EventArgs e)
         {
-            setAbilityList();
+            SetAbilityList();
             
             // If form has a single gender, account for it.
-            if (PKX.getGender(CB_Form.Text) < 2)
-                Label_Gender.Text = Main.gendersymbols[CB_Form.SelectedIndex];
+            if (PKX.GetGenderFromString(CB_Form.Text) < 2)
+                Label_Gender.Text = Main.GenderSymbols[CB_Form.SelectedIndex];
         }
 
         private int genderflag;
         private void Label_Gender_Click(object sender, EventArgs e)
         {
             // Get Gender Threshold
-            int gt = SAV.Personal[WinFormsUtil.getIndex(CB_Species)].Gender;
+            int gt = SAV.Personal[WinFormsUtil.GetIndex(CB_Species)].Gender;
 
             if (gt == 255 || gt == 0 || gt == 254) // Single gender/genderless
                 return;
 
             if (gt < 256) // If not a single gender(less) species:
-                Label_Gender.Text = Main.gendersymbols[PKX.getGender(Label_Gender.Text) ^ 1];
+                Label_Gender.Text = Main.GenderSymbols[PKX.GetGenderFromString(Label_Gender.Text) ^ 1];
         }
-        private void setGenderLabel()
+        private void SetGenderLabel()
         {
-            Label_Gender.Text = Main.gendersymbols[genderflag];
+            Label_Gender.Text = Main.GenderSymbols[genderflag];
         }
 
         private void B_FDelete_Click(object sender, EventArgs e)
@@ -502,7 +503,7 @@ namespace PKHeX.WinForms
             if (index != max) Array.Copy(SAV.Data, offset + size, SAV.Data, offset, size * (max - index));
             // Ensure Last Entry is Cleared
             Array.Copy(new byte[size], 0, SAV.Data, size * max, size);
-            popFavorite();
+            PopFavorite();
         }
     }
 }

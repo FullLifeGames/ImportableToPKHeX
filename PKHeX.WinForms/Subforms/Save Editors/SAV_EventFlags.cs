@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -10,12 +11,15 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_EventFlags : Form
     {
-        public SAV_EventFlags()
+        private readonly SaveFile Origin;
+        private readonly SaveFile SAV;
+        public SAV_EventFlags(SaveFile sav)
         {
+            SAV = (Origin = sav).Clone();
             InitializeComponent();
 
-            DragEnter += tabMain_DragEnter;
-            DragDrop += tabMain_DragDrop;
+            DragEnter += Main_DragEnter;
+            DragDrop += Main_DragDrop;
 
             flags = SAV.EventFlags;
             Constants = SAV.EventConsts;
@@ -30,23 +34,28 @@ namespace PKHeX.WinForms
             TLP_Const.Scroll += WinFormsUtil.PanelScroll;
             TLP_Flags.Controls.Clear();
             TLP_Const.Controls.Clear();
-            addFlagList(getStringList("flags"));
-            addConstList(getStringList("const"));
+            AddFlagList(GetStringList("flags"));
+            AddConstList(GetStringList("const"));
 
             TLP_Flags.ResumeLayout();
             TLP_Const.ResumeLayout();
 
-            WinFormsUtil.TranslateInterface(this, Main.curlanguage);
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
             Text = $"Event Flag Editor ({gamePrefix.ToUpper()})";
 
-
-            CB_Stats.SelectedIndex = 0;
+            if (CB_Stats.Items.Count > 0)
+                CB_Stats.SelectedIndex = 0;
+            else
+            {
+                L_Stats.Visible = CB_Stats.Visible = MT_Stat.Visible = false;
+                tabControl1.TabPages.Remove(GB_Constants);
+            }
             NUD_Flag.Maximum = flags.Length - 1;
             NUD_Flag.Text = "0";
+            c_CustomFlag.Checked = flags[0];
         }
 
-        private readonly SaveFile SAV = Main.SAV.Clone();
         private readonly bool[] flags;
         private readonly ushort[] Constants;
         private const string flagTag = "bool_";
@@ -68,15 +77,16 @@ namespace PKHeX.WinForms
         {
             // Gather Updated Flags
             foreach (CheckBox flag in TLP_Flags.Controls.OfType<CheckBox>())
-                flags[getControlNum(flag)] = flag.Checked;
+                flags[GetControlNum(flag)] = flag.Checked;
             SAV.EventFlags = flags;
 
             HandleSpecialFlags();
 
             // Copy back Constants
-            changeConstantIndex(null, null); // Trigger Saving
+            ChangeConstantIndex(null, null); // Trigger Saving
             SAV.EventConsts = Constants;
-            Array.Copy(SAV.Data, Main.SAV.Data, SAV.Data.Length);
+            SAV.Data.CopyTo(Origin.Data, 0);
+            Origin.Edited = true;
             Close();
         }
 
@@ -86,10 +96,9 @@ namespace PKHeX.WinForms
             {
                 BitConverter.GetBytes(flags[3100] ? MagearnaConst : 0).CopyTo(SAV.Data, ((SAV7)SAV).QRSaveData + 0x168);
             }
-
         }
 
-        private string[] getStringList(string type)
+        private string[] GetStringList(string type)
         {
             switch (SAV.Version)
             {
@@ -105,12 +114,44 @@ namespace PKHeX.WinForms
                 case GameVersion.MN:
                     gamePrefix = "sm";
                     break;
+                case GameVersion.US:
+                case GameVersion.UM:
+                    gamePrefix = "usum";
+                    break;
+                case GameVersion.DP:
+                    gamePrefix = "dp";
+                    break;
+                case GameVersion.Pt:
+                    gamePrefix = "pt";
+                    break;
+                case GameVersion.HGSS:
+                    gamePrefix = "hgss";
+                    break;
+                case GameVersion.BW:
+                    gamePrefix = "bw";
+                    break;
+                case GameVersion.B2W2:
+                    gamePrefix = "b2w2";
+                    break;
+                case GameVersion.R:
+                case GameVersion.S:
+                case GameVersion.RS:
+                    gamePrefix = "rs";
+                    break;
+                case GameVersion.E:
+                    gamePrefix = "e";
+                    break;
+                case GameVersion.FR:
+                case GameVersion.LG:
+                case GameVersion.FRLG:
+                    gamePrefix = "frlg";
+                    break;
                 default:
                     return null;
             }
-            return Util.getStringList($"{type}_{gamePrefix}");
+            return GameInfo.GetStrings(gamePrefix, GameInfo.CurrentLanguage, type);
         }
-        private void addFlagList(string[] list)
+        private void AddFlagList(string[] list)
         {
             if (list == null || list.Length == 0)
             {
@@ -126,7 +167,17 @@ namespace PKHeX.WinForms
             {
                 try
                 {
-                    int n = Convert.ToInt32(split[0]);
+                    var flag = split[0];
+
+                    int n;
+                    if (flag.StartsWith("0x"))
+                    {
+                        flag = flag.Substring(2);
+                        n = Convert.ToInt16(flag, 16);
+                    }
+                    else
+                        n = Convert.ToInt16(flag);
+
                     if (num.Contains(n))
                         continue;
                     num.Add(n);
@@ -156,13 +207,13 @@ namespace PKHeX.WinForms
                     Checked = flags[num[i]],
                     AutoSize = true
                 };
-                chk.CheckStateChanged += toggleFlag;
-                lbl.Click += (sender, e) => { chk.Checked ^= true; };
+                chk.CheckStateChanged += ToggleFlag;
+                lbl.Click += (sender, e) => chk.Checked ^= true;
                 TLP_Flags.Controls.Add(chk, 0, i);
                 TLP_Flags.Controls.Add(lbl, 1, i);
             }
         }
-        private void addConstList(string[] list)
+        private void AddConstList(string[] list)
         {
             if (list == null || list.Length == 0)
             {
@@ -179,7 +230,16 @@ namespace PKHeX.WinForms
             {
                 try
                 {
-                    int n = Convert.ToInt32(split[0]);
+                    var c = split[0];
+                    int n;
+                    if (c.StartsWith("0x40"))
+                    {
+                        c = c.Substring(4);
+                        n = Convert.ToInt16(c, 16);
+                    }
+                    else
+                        n = Convert.ToInt16(c);
+
                     if (num.Contains(n))
                         continue;
                     num.Add(n);
@@ -227,15 +287,16 @@ namespace PKHeX.WinForms
                     ValueMember = "Value",
                     DisplayMember = "Text",
                     Margin = Padding.Empty,
-                    Width = 80,
+                    Width = 150,
                     Name = constCBTag + num[i].ToString("0000"),
                     DropDownStyle = ComboBoxStyle.DropDownList,
                     BindingContext = BindingContext,
                     DataSource = map,
-                    SelectedIndex = 0
+                    SelectedIndex = 0,
+                    DropDownWidth = Width + 100
                 };
-                cb.SelectedValueChanged += toggleConst;
-                mtb.TextChanged += toggleConst;
+                cb.SelectedValueChanged += ToggleConst;
+                mtb.TextChanged += ToggleConst;
                 TLP_Const.Controls.Add(lbl, 0, i);
                 TLP_Const.Controls.Add(cb, 1, i);
                 TLP_Const.Controls.Add(mtb, 2, i);
@@ -246,7 +307,7 @@ namespace PKHeX.WinForms
             }
         }
 
-        private int getControlNum(Control c)
+        private static int GetControlNum(Control c)
         {
             try
             {
@@ -255,7 +316,7 @@ namespace PKHeX.WinForms
             }
             catch { return 0; }
         }
-        private void changeCustomBool(object sender, EventArgs e)
+        private void ChangeCustomBool(object sender, EventArgs e)
         {
             if (editing)
                 return;
@@ -268,7 +329,7 @@ namespace PKHeX.WinForms
             }
             editing = false;
         }
-        private void changeCustomFlag(object sender, EventArgs e)
+        private void ChangeCustomFlag(object sender, EventArgs e)
         {
             int flag = (int)NUD_Flag.Value;
             if (flag >= flags.Length)
@@ -284,29 +345,28 @@ namespace PKHeX.WinForms
                 c_CustomFlag.Checked = flags[flag];
             }
         }
-        private void changeCustomFlag(object sender, KeyEventArgs e)
+        private void ChangeCustomFlag(object sender, KeyEventArgs e)
         {
-            changeCustomFlag(null, (EventArgs)e);
+            ChangeCustomFlag(null, (EventArgs)e);
         }
-        private void toggleFlag(object sender, EventArgs e)
+        private void ToggleFlag(object sender, EventArgs e)
         {
             if (editing)
                 return;
             editing = true;
-            int flagnum = getControlNum((CheckBox) sender);
+            int flagnum = GetControlNum((CheckBox) sender);
             flags[flagnum] = ((CheckBox)sender).Checked;
             if (NUD_Flag.Value == flagnum)
                 c_CustomFlag.Checked = flags[flagnum];
             editing = false;
         }
         
-        private void changeCustomConst(object sender, EventArgs e)
+        private void ChangeCustomConst(object sender, EventArgs e)
         {
             if (editing)
                 return;
             editing = true;
-
-            editing = true;
+            
             Constants[CB_Stats.SelectedIndex] = (ushort)(Util.ToUInt32(((MaskedTextBox)sender).Text) & 0xFFFF);
             MaskedTextBox m = TLP_Flags.Controls[constTag + CB_Stats.SelectedIndex.ToString("0000")] as MaskedTextBox;
             if (m != null)
@@ -314,20 +374,22 @@ namespace PKHeX.WinForms
 
             editing = false;
         }
-        private void changeConstantIndex(object sender, EventArgs e)
+        private void ChangeConstantIndex(object sender, EventArgs e)
         {
+            if (Constants.Length == 0)
+                return;
             if (constEntry > -1) // Set Entry
                 Constants[constEntry] = (ushort)Math.Min(Util.ToUInt32(MT_Stat.Text), 0xFFFF);
 
             constEntry = CB_Stats.SelectedIndex; // Get Entry
             MT_Stat.Text = Constants[constEntry].ToString();
         }
-        private void toggleConst(object sender, EventArgs e)
+        private void ToggleConst(object sender, EventArgs e)
         {
             if (editing)
                 return;
 
-            int constnum = getControlNum((Control)sender);
+            int constnum = GetControlNum((Control)sender);
             if (sender is ComboBox)
             {
                 var nud = (NumericUpDown)TLP_Const.GetControlFromPosition(2, TLP_Const.GetRow((Control)sender));
@@ -349,33 +411,35 @@ namespace PKHeX.WinForms
             }
         }
 
-        private void changeSAV(object sender, EventArgs e)
+        private void ChangeSAV(object sender, EventArgs e)
         {
             if (TB_NewSAV.Text.Length > 0 && TB_OldSAV.Text.Length > 0)
-                diffSaves();
+                DiffSaves();
         }
-        private void openSAV(object sender, EventArgs e)
+        private void OpenSAV(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
             if (ofd.ShowDialog() == DialogResult.OK)
-                loadSAV(sender, ofd.FileName);
+                LoadSAV(sender, ofd.FileName);
         }
-        private void loadSAV(object sender, string path)
+        private void LoadSAV(object sender, string path)
         {
             if (sender == B_LoadOld)
                 TB_OldSAV.Text = path;
             else
                 TB_NewSAV.Text = path;
         }
-        private void diffSaves()
+        private void DiffSaves()
         {
             if (!File.Exists(TB_OldSAV.Text)) { WinFormsUtil.Alert("Save 1 path invalid."); return; }
             if (!File.Exists(TB_NewSAV.Text)) { WinFormsUtil.Alert("Save 2 path invalid."); return; }
             if (new FileInfo(TB_OldSAV.Text).Length > 0x100000) { WinFormsUtil.Alert("Save 1 file invalid."); return; }
             if (new FileInfo(TB_NewSAV.Text).Length > 0x100000) { WinFormsUtil.Alert("Save 2 file invalid."); return; }
 
-            SaveFile s1 = SaveUtil.getVariantSAV(File.ReadAllBytes(TB_OldSAV.Text));
-            SaveFile s2 = SaveUtil.getVariantSAV(File.ReadAllBytes(TB_NewSAV.Text));
+            SaveFile s1 = SaveUtil.GetVariantSAV(File.ReadAllBytes(TB_OldSAV.Text));
+            SaveFile s2 = SaveUtil.GetVariantSAV(File.ReadAllBytes(TB_NewSAV.Text));
+            if (s1 == null) { WinFormsUtil.Alert("Save 1 file invalid."); return; }
+            if (s2 == null) { WinFormsUtil.Alert("Save 2 file invalid."); return; }
 
             if (s1.GetType() != s2.GetType()) { WinFormsUtil.Alert("Save types are different.", $"S1: {s1.GetType().Name}", $"S2: {s2.GetType().Name}"); return; }
             if (s1.Version != s2.Version) { WinFormsUtil.Alert("Save versions are different.", $"S1: {s1.Version}", $"S2: {s2.Version}"); return; }
@@ -393,15 +457,15 @@ namespace PKHeX.WinForms
                 {
                     if (oldBits[i] == newBits[i]) continue;
                     if (newBits[i])
-                        tbIsSet += i.ToString("0000") + ",";
+                        tbIsSet += $"{i:0000},";
                     else
-                        tbUnSet += i.ToString("0000") + ",";
+                        tbUnSet += $"{i:0000},";
                 }
             }
             catch (Exception e)
             {
                 WinFormsUtil.Error("An unexpected error has occurred.", e);
-                Console.Write(e);
+                Debug.WriteLine(e);
             }
             TB_IsSet.Text = tbIsSet;
             TB_UnSet.Text = tbUnSet;
@@ -421,7 +485,13 @@ namespace PKHeX.WinForms
             catch (Exception e)
             {
                 WinFormsUtil.Error("An unexpected error has occurred.", e);
-                Console.Write(e);
+                Debug.WriteLine(e);
+            }
+
+            if (string.IsNullOrEmpty(r))
+            {
+                WinFormsUtil.Alert("No Event Constant diff found.");
+                return;
             }
 
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Copy Event Constant diff to clipboard?"))
@@ -429,14 +499,14 @@ namespace PKHeX.WinForms
             Clipboard.SetText(r);
         }
 
-        private void tabMain_DragEnter(object sender, DragEventArgs e)
+        private static void Main_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
         }
-        private void tabMain_DragDrop(object sender, DragEventArgs e)
+        private void Main_DragDrop(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            loadSAV(WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "FlagDiff Researcher:", "Yes: Old Save" + Environment.NewLine + "No: New Save") == DialogResult.Yes ? B_LoadOld : B_LoadNew, files[0]);
+            LoadSAV(WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "FlagDiff Researcher:", "Yes: Old Save" + Environment.NewLine + "No: New Save") == DialogResult.Yes ? B_LoadOld : B_LoadNew, files[0]);
         }
     }
 }
