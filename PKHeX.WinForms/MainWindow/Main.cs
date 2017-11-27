@@ -1588,7 +1588,7 @@ namespace PKHeX.WinForms
                     {
                         mainMenuOpen(pokegenfolder + "softboiled.ek6");
                     }
-                    else if ((move1.Equals("Defog") || move2.Equals("Defog") || move3.Equals("Defog") || move4.Equals("Defog")) && !poke.Contains("Mandibuzz") && !poke.Contains("Vullaby") && !poke.Contains("Braviary") && !poke.Contains("Golbat") && !poke.Contains("Crobat") && !poke.Contains("Archeops") && !poke.Contains("Archen") && !poke.Contains("Swanna") && !poke.Contains("Ducklett") && !poke.Contains("Zubat") && !poke.Contains("Pidgey") && !poke.Contains("Scizor") && !poke.Contains("Dartrix") && !poke.Contains("Decidueye") && !poke.Contains("Fomantis") && !poke.Contains("Lurantis") && !poke.Contains("Rowlet"))
+                    else if ((move1.Equals("Defog") || move2.Equals("Defog") || move3.Equals("Defog") || move4.Equals("Defog")) && !poke.Contains("Mandibuzz") && !poke.Contains("Vullaby") && !poke.Contains("Braviary") && !poke.Contains("Golbat") && !poke.Contains("Crobat") && !poke.Contains("Archeops") && !poke.Contains("Archen") && !poke.Contains("Swanna") && !poke.Contains("Ducklett") && !poke.Contains("Zubat") && !poke.Contains("Pidgey") && !poke.Contains("Scizor") && !poke.Contains("Dartrix") && !poke.Contains("Decidueye") && !poke.Contains("Fomantis") && !poke.Contains("Lurantis") && !poke.Contains("Rowlet") && !poke.Contains("Gligar") && !poke.Contains("Gliscor"))
                     {
                         mainMenuOpen(pokegenfolder + "defog.ek6");
                     }

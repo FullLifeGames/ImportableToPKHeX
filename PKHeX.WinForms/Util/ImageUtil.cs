@@ -29,12 +29,12 @@ namespace PKHeX.WinForms
                 return (Bitmap)img;
 
             var bmp = (Bitmap)img.Clone();
-            GetBitmapData(bmp, out BitmapData bmpData, out IntPtr ptr, out byte[] data);
+          //  GetBitmapData(bmp, out BitmapData bmpData, out IntPtr ptr, out byte[] data);
 
-            Marshal.Copy(ptr, data, 0, data.Length);
-            SetAllTransparencyTo(data, trans);
-            Marshal.Copy(data, 0, ptr, data.Length);
-            bmp.UnlockBits(bmpData);
+          //  Marshal.Copy(ptr, data, 0, data.Length);
+         //   SetAllTransparencyTo(data, trans);
+         //   Marshal.Copy(data, 0, ptr, data.Length);
+         //   bmp.UnlockBits(bmpData);
 
             return bmp;
         }
