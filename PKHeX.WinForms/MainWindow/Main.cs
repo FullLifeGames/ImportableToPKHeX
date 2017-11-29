@@ -1721,25 +1721,24 @@ namespace PKHeX.WinForms
                 PKME_Tabs.CB_HeldItem.SelectedItem = i;
 
                 i.Text = null;
-                string a = null;
                 foreach (ComboItem items in PKME_Tabs.CB_Ability.Items)
                 {
                     if (items.Text.Contains(ability))
                     {
-                        if (a != null)
+                        if (i.Text != null)
                         {
-                            if (a.Length < items.Text.Length)
+                            if (i.Text.Length < items.Text.Length)
                             {
-                                a = items.Text;
+                                i = items;
                             }
                         }
                         else
                         {
-                            a = items.Text;
+                            i = items;
                         }
                     }
                 }
-                if (a == null)
+                if (i.Text == null)
                 {
                     if (!ability.Equals(""))
                     {
@@ -1788,7 +1787,7 @@ namespace PKHeX.WinForms
                     }
                     else
                     {
-                        PKME_Tabs.CB_Ability.SelectedItem = a;
+                        PKME_Tabs.CB_Ability.SelectedItem = i;
                     }
                 }
 
