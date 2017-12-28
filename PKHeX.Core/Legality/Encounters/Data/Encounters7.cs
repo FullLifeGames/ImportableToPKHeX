@@ -39,6 +39,13 @@ namespace PKHeX.Core
             MarkG7SMSlots(ref SOS_UM);
             SlotsUS = AddExtraTableSlots(REG_US, SOS_US, Encounter_Pelago_UU, Encounter_Pelago_US);
             SlotsUM = AddExtraTableSlots(REG_UM, SOS_UM, Encounter_Pelago_UU, Encounter_Pelago_UM);
+
+            MarkEncounterAreaArray(SOS_SN, SOS_MN, SOS_US, SOS_UM, 
+                Encounter_Pelago_SM, Encounter_Pelago_SN, Encounter_Pelago_MN, 
+                Encounter_Pelago_UU, Encounter_Pelago_US, Encounter_Pelago_UM);
+
+            MarkEncountersGeneration(7, SlotsSN, SlotsMN, SlotsUS, SlotsUM);
+            MarkEncountersGeneration(7, StaticSN, StaticMN, StaticUS, StaticUM, TradeGift_SM, TradeGift_USUM);
         }
         private static void MarkG7REGSlots(ref EncounterArea[] Areas)
         {
@@ -59,7 +66,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 728, Level = 5,  Location = 24, }, // Popplio
             new EncounterStatic { Gift = true, Species = 138, Level = 15, Location = 58, }, // Omanyte
             new EncounterStatic { Gift = true, Species = 140, Level = 15, Location = 58, }, // Kabuto
-            new EncounterStatic { Gift = true, Species = 142, Level = 15, Location = 58, }, // Aerodactyl
+            // new EncounterStatic { Gift = true, Species = 142, Level = 15, Location = 58, }, // Aerodactyl
             new EncounterStatic { Gift = true, Species = 345, Level = 15, Location = 58, }, // Lileep
             new EncounterStatic { Gift = true, Species = 347, Level = 15, Location = 58, }, // Anorith
             new EncounterStatic { Gift = true, Species = 408, Level = 15, Location = 58, }, // Cranidos
@@ -173,7 +180,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 728, Level = 05, Location = 8, },  // Popplio
             new EncounterStatic { Gift = true, Species = 138, Level = 15, Location = 58, }, // Omanyte
             new EncounterStatic { Gift = true, Species = 140, Level = 15, Location = 58, }, // Kabuto
-            new EncounterStatic { Gift = true, Species = 142, Level = 15, Location = 58, }, // Aerodactyl
+            // new EncounterStatic { Gift = true, Species = 142, Level = 15, Location = 58, }, // Aerodactyl
             new EncounterStatic { Gift = true, Species = 345, Level = 15, Location = 58, }, // Lileep
             new EncounterStatic { Gift = true, Species = 347, Level = 15, Location = 58, }, // Anorith
             new EncounterStatic { Gift = true, Species = 408, Level = 15, Location = 58, }, // Cranidos
@@ -233,7 +240,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 007, Level = 12, Location = 042, Relearn = new[] {453,110,055,033}, }, // Squirtle @ Seaward Cave
             new EncounterStatic { Species = 095, Level = 14, Location = 034, Relearn = new[] {563,099,317,088}, }, // Onix @ Ten Carat Hill
             new EncounterStatic { Species = 116, Level = 18, Location = 014, Relearn = new[] {352,239,055,043}, }, // Horsea @ Kala'e Bay
-            new EncounterStatic { Species = 664, Level = 09, Location = 020, Relearn = new[] {476,081,078,033}, }, // Scatterbug @ Hau'oli City
+            new EncounterStatic { Species = 664, Level = 09, Location = 020, Relearn = new[] {476,081,078,033}, SkipFormCheck = true, }, // Scatterbug @ Hau'oli City
             new EncounterStatic { Species = 001, Level = 10, Location = 012, Relearn = new[] {580,022,045,033}, }, // Bulbasaur @ Route 2
             new EncounterStatic { Species = 607, Level = 09, Location = 038, Relearn = new[] {203,052,083,123}, }, // Litwick @ Hau'oli Cemetery
 			
@@ -349,7 +356,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 097, Level = 29, Location = 020, Shiny = false, Relearn = new[] {093,050,001,096}, }, // Hypno @ Hau'oli City Police Station
             new EncounterStatic { Species = 092, Level = 19, Location = 230, Shiny = false, Relearn = new[] {174,109,122,101}, }, // Gastly @ Route 1 (Trainers’ School)
             new EncounterStatic { Species = 425, Level = 19, Location = 230, Shiny = false, Relearn = new[] {310,132,016,371}, }, // Drifloon @ Route 1 (Trainers’ School)
-            new EncounterStatic { Species = 769, Level = 30, Location = 116, Shiny = false, Relearn = new[] {310,523,072,328}, }, // Sandygast @ Route 15
+            new EncounterStatic { Species = 769, Level = 30, Location = 116, Shiny = false, Relearn = new[] {310,523,072,328}, Version = GameVersion.UM, }, // Sandygast @ Route 15
             new EncounterStatic { Species = 592, Level = 34, Location = 126, Shiny = false, Gender = 1, }, // Frillish @ Route 14
             new EncounterStatic { Species = 132, Level = 29, Location = 060, IVs = new[] {-1,-1,31,30,-1,00}, Nature = Nature.Bold }, // Ditto @ Route 9
             new EncounterStatic { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,-1,30,30,-1,31}, Nature = Nature.Jolly }, // Ditto @ Konikoni City

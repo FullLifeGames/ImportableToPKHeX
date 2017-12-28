@@ -27,7 +27,7 @@ namespace PKHeX.Core
 
             return null;
         }
-        private static EncounterStatic GetSuggestedEncounterEgg(PKM pkm, int loc)
+        private static EncounterStatic GetSuggestedEncounterEgg(PKM pkm, int loc = -1)
         {
             int lvl = 1; // gen5+
             if (!pkm.IsNative)
@@ -41,21 +41,18 @@ namespace PKHeX.Core
                 Level = lvl,
             };
         }
-        private static EncounterStatic GetSuggestedEncounterWild(EncounterArea area, int loc)
+        private static EncounterStatic GetSuggestedEncounterWild(EncounterArea area, int loc = -1)
         {
             var slots = area.Slots.OrderBy(s => s.LevelMin);
             var first = slots.First();
-            var encounter = new EncounterStatic
+            return new EncounterStatic
             {
-                Location = area.Location,
+                Location = loc != -1 ? loc : area.Location,
                 Species = first.Species,
                 Level = first.LevelMin,
             };
-            if (loc != -1) // forced location
-                encounter.Location = loc;
-            return encounter;
         }
-        private static EncounterStatic GetSuggestedEncounterStatic(EncounterStatic s, int loc)
+        private static EncounterStatic GetSuggestedEncounterStatic(EncounterStatic s, int loc = -1)
         {
             if (loc == -1)
                 loc = s.Location;
@@ -83,18 +80,18 @@ namespace PKHeX.Core
                         case 3:
                             return pkm.FRLG ? 146 /* Four Island */ : 32; // Route 117
                         case 4:
-                            return 0x37; // Pal Park
+                            return Legal.Transfer3; // Pal Park
                         default:
-                            return 30001; // Transporter
+                            return Legal.Transfer4; // Transporter
                     }
 
                 case GameVersion.D:
                 case GameVersion.P:
                 case GameVersion.Pt:
-                    return pkm.Format > 4 ? 30001 /* Transporter */ : 4; // Solaceon Town
+                    return pkm.Format > 4 ? Legal.Transfer4 /* Transporter */ : 4; // Solaceon Town
                 case GameVersion.HG:
                 case GameVersion.SS:
-                    return pkm.Format > 4 ? 30001 /* Transporter */ : 182; // Route 34
+                    return pkm.Format > 4 ? Legal.Transfer4 /* Transporter */ : 182; // Route 34
 
                 case GameVersion.B:
                 case GameVersion.W:
@@ -118,22 +115,27 @@ namespace PKHeX.Core
             return -1;
         }
         /// <summary> 
-        /// Gets the correct Met location for the origin game.
+        /// Gets the correct Transfer Met location for the origin game.
         /// </summary>
         /// <remarks>
         /// Returns -1 if the met location is not overriden with a transfer location
         /// </remarks>
         private static int GetSuggestedTransferLocation(PKM pkm)
         {
-            // Return one of legal hatch locations for game
             if (pkm.HasOriginalMetLocation)
                 return -1;
             if (pkm.VC1)
-                return 30013;
+                return Legal.Transfer1;
+            if (pkm.VC2)
+                return Legal.Transfer2;
             if (pkm.Format == 4) // Pal Park
-                return 0x37;
-            if (pkm.Format == 5) // Transporter
-                return 30001;
+                return Legal.Transfer3;
+            if (pkm.Format >= 5) // Transporter
+            {
+                return pkm.Gen4 && pkm.FatefulEncounter && Legal.CrownBeasts.Contains(pkm.Species)
+                    ? (pkm.Species == 251 ? Legal.Transfer4_CelebiUnused : Legal.Transfer4_CrownUnused) // Celebi : Beast
+                    : Legal.Transfer4; // Pokétransfer (not Crown)
+            }
             return -1;
         }
     }

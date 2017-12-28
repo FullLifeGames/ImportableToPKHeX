@@ -266,7 +266,7 @@ namespace PKHeX.Core
             098, 224, 400, 515, 008, 130, 195, 419, 061, 184, 657
         };
         internal static readonly int[] CosplayPikachuMoves = { 309, 556, 577, 604, 560, 0 };
-        internal static readonly int[] WildPokeballs6 = { 0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F };
+        internal static readonly HashSet<int> WildPokeballs6 = new HashSet<int> {0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F};
 
         internal static readonly HashSet<int> Ban_NoHidden6 = new HashSet<int>
         {
@@ -304,7 +304,9 @@ namespace PKHeX.Core
             032, // Via Nidoran-F
             313, // Via Illumise
 
+            172, // Via Pikachu
             173, // Via Clefairy
+            174, // Via Jigglypuff
             239, // Via Electabuzz
             240, // Via Magmar
             298, // Via Marill
@@ -313,6 +315,8 @@ namespace PKHeX.Core
             433, // Via Chimecho
             439, // Via Mr. Mime
             440, // Via Chansey
+
+            287, // Via Vigoroth
         };
         internal static readonly HashSet<int> Inherit_Dream = new HashSet<int>
         {

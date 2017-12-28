@@ -1,4 +1,5 @@
-﻿using static PKHeX.Core.EncounterUtil;
+﻿using System.Linq;
+using static PKHeX.Core.EncounterUtil;
 
 namespace PKHeX.Core
 {
@@ -9,6 +10,7 @@ namespace PKHeX.Core
     {
         internal static readonly EncounterArea[] SlotsX, SlotsY, SlotsA, SlotsO;
         internal static readonly EncounterStatic[] StaticX, StaticY, StaticA, StaticO;
+        internal static readonly ILookup<int, EncounterSlot> FriendSafari;
 
         static Encounters6()
         {
@@ -21,6 +23,7 @@ namespace PKHeX.Core
             var YSlots = GetEncounterTables(GameVersion.Y);
             MarkG6XYSlots(ref XSlots);
             MarkG6XYSlots(ref YSlots);
+            MarkEncounterAreaArray(SlotsXYAlt);
             SlotsX = AddExtraTableSlots(XSlots, SlotsXYAlt);
             SlotsY = AddExtraTableSlots(YSlots, SlotsXYAlt);
 
@@ -28,6 +31,31 @@ namespace PKHeX.Core
             SlotsO = GetEncounterTables(GameVersion.OR);
             MarkG6AOSlots(ref SlotsA);
             MarkG6AOSlots(ref SlotsO);
+
+            MarkEncountersGeneration(6, SlotsX, SlotsY, SlotsA, SlotsO);
+            MarkEncountersGeneration(6, StaticX, StaticY, StaticA, StaticO, TradeGift_XY, TradeGift_AO);
+
+            FriendSafari = GetFriendSafariArea();
+        }
+
+        private static ILookup<int, EncounterSlot> GetFriendSafariArea()
+        {
+            var area = new EncounterArea { Location = 148 };
+            EncounterSlot FriendSafariSlot(int d)
+            {
+                return new EncounterSlot
+                {
+                    Area = area,
+                    Generation = 6,
+                    Species = d,
+                    LevelMin = 30,
+                    LevelMax = 30,
+                    Form = 0,
+                    Type = SlotType.FriendSafari,
+                };
+            }
+            area.Slots = Legal.FriendSafari.Select(FriendSafariSlot).ToArray();
+            return area.Slots.ToLookup(s => s.Species);
         }
         private static void MarkG6XYSlots(ref EncounterArea[] Areas)
         {
@@ -175,7 +203,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 698, Level = 20, Location = 44, }, // Amaura
 
             new EncounterStatic { Species = 448, Level = 32, Location = 60, Ability = 1, Nature = Nature.Hasty, Gender = 0, IVs = new[] {6, 25, 16, 31, 25, 19}, Gift = true, Shiny = false }, // Lucario
-            new EncounterStatic { Species = 131, Level = 30, Location = 62, Nature = Nature.Docile, IVs = new[] {31, 20, 20, 20, 20, 20}, Gift = true }, // Lapras
+            new EncounterStatic { Species = 131, Level = 30, Location = 62, Ability = 1, Nature = Nature.Docile, IVs = new[] {31, 20, 20, 20, 20, 20}, Gift = true }, // Lapras
             
             new EncounterStatic { Species = 143, Level = 15, Location = 038, Shiny = false, }, // Snorlax
             new EncounterStatic { Species = 568, Level = 35, Location = 142 }, // Trubbish
@@ -330,7 +358,7 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 650, Level = 5, Ability = 1, Gender = 0, TID = 00037, Nature = Nature.Adamant, IVs = new[] {20, 31, 20, 20, 20, 20}, }, // Chespin
             new EncounterTrade { Species = 653, Level = 5, Ability = 1, Gender = 0, TID = 00037, Nature = Nature.Modest, IVs = new[] {20, 20, 20, 20, 31, 20}, }, // Fennekin
 
-            new EncounterTrade { Species = 280, Level = 5, Ability = 1, Gender = 1, TID = 37110, Nature = Nature.Modest, IVs = new[] {20, 20, 20, 31, 31, 20}, }, // Ralts
+            new EncounterTrade { Species = 280, Level = 5, Ability = 1, Gender = 1, TID = 37110, Nature = Nature.Modest, IVs = new[] {20, 20, 20, 31, 31, 20}, IsNicknamed = false, }, // Ralts
         };
         internal static readonly EncounterTrade[] TradeGift_AO =
         {

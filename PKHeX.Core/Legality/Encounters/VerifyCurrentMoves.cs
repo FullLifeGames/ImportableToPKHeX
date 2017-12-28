@@ -11,10 +11,10 @@ namespace PKHeX.Core
     /// </summary>
     public static class VerifyCurrentMoves
     {
-        public static CheckMoveResult[] VerifyMoves(PKM pkm, LegalInfo info, GameVersion game = GameVersion.Any)
+        public static CheckMoveResult[] VerifyMoves(PKM pkm, LegalInfo info)
         {
             int[] Moves = pkm.Moves;
-            var res = ParseMovesForEncounters(pkm, info, game, Moves);
+            var res = ParseMovesForEncounters(pkm, info, Moves);
 
             // Duplicate Moves Check
             VerifyNoEmptyDuplicates(Moves, res);
@@ -24,13 +24,10 @@ namespace PKHeX.Core
             return res;
         }
 
-        private static CheckMoveResult[] ParseMovesForEncounters(PKM pkm, LegalInfo info, GameVersion game, int[] Moves)
+        private static CheckMoveResult[] ParseMovesForEncounters(PKM pkm, LegalInfo info, int[] Moves)
         {
             if (pkm.Species == 235) // special handling for Smeargle
                 return ParseMovesForSmeargle(pkm, Moves, info); // Smeargle can have any moves except a few
-
-            // Iterate over encounters
-            bool pre3DS = info.Generation < 6;
 
             // gather valid moves for encounter species
             info.EncounterMoves = new ValidEncounterMoves(pkm, info);
@@ -52,14 +49,15 @@ namespace PKHeX.Core
                     UptateGen2LevelUpMoves(pkm, info.EncounterMoves, info.EncounterMoves.MinimumLevelGen2, EncounterMatchGen.Generation, info);
             }
 
-            var res = pre3DS
+            var res = info.Generation < 6
                 ? ParseMovesPre3DS(pkm, Moves, info)
                 : ParseMoves3DS(pkm, Moves, info);
 
             if (res.All(x => x.Valid))
                 return res;
 
-            if (EncounterMatchGen?.Generation == 1 || EncounterMatchGen?.Generation == 2) // not valid, restore generation 1 and 2 moves
+            // not valid
+            if (EncounterMatchGen?.Generation == 1 || EncounterMatchGen?.Generation == 2) // restore generation 1 and 2 moves
             {
                 info.EncounterMoves.LevelUpMoves[1] = defaultG1LevelMoves;
                 if (pkm.InhabitedGeneration(2))
@@ -142,8 +140,8 @@ namespace PKHeX.Core
                 int[] SpecialMoves = GetSpecialMoves(info.EncounterMatch);
                 return ParseMovesIsEggPreRelearn(pkm, Moves, SpecialMoves, egg);
             }
-            var NoMoveReminder = (info.EncounterMatch as IGeneration)?.Generation == 1 || (info.EncounterMatch as IGeneration)?.Generation == 2 && !Legal.AllowGen2MoveReminder(pkm);
-            if (info.Generation <= 2 && NoMoveReminder)
+            if (info.Generation <= 2 && 
+                info.EncounterMatch is IGeneration g && (g.Generation == 1 || g.Generation == 2 && !Legal.AllowGen2MoveReminder(pkm))) // fixed encounter moves without relearning
                 return ParseMovesGenGB(pkm, Moves, info);
             if (info.EncounterMatch is EncounterEgg e)
                 return ParseMovesWasEggPreRelearn(pkm, Moves, info, e);
@@ -189,13 +187,8 @@ namespace PKHeX.Core
         }
         private static int[] GetSpecialMoves(IEncounterable EncounterMatch)
         {
-            switch (EncounterMatch)
-            {
-                case IMoveset mg:
-                    return mg.Moves ?? new int[0];
-                case EncounterSlot s when s.Type == SlotType.Swarm && (s.Species == 273 || s.Species == 274):
-                    return new[] {73}; // Leech Seed for RSE Swarm (Seedot || Nuzleaf); only matches for RSE origin encounters.
-            }
+            if (EncounterMatch is IMoveset mg)
+                return mg.Moves ?? new int[0];
             return new int[0];
         }
         private static CheckMoveResult[] ParseMovesRelearn(PKM pkm, int[] Moves, LegalInfo info)
@@ -268,7 +261,7 @@ namespace PKHeX.Core
         }
         private static void ParseMovesByGeneration(PKM pkm, CheckMoveResult[] res, int gen, LegalInfo info, LearnInfo learnInfo, int last)
         {
-            GetHMCompatibility(pkm, learnInfo.Source.CurrentMoves, gen, res, out bool[] HMLearned, out bool KnowDefogWhirlpool);
+            GetHMCompatibility(pkm, res, gen, learnInfo.Source.CurrentMoves, out bool[] HMLearned, out bool KnowDefogWhirlpool);
             ParseMovesByGeneration(pkm, res, gen, info, learnInfo);
 
             if (gen == last)
@@ -294,7 +287,7 @@ namespace PKHeX.Core
             if (Legal.SpeciesEvolutionWithMove.Contains(pkm.Species))
                 ParseEvolutionLevelupMove(pkm, res, learnInfo.Source.CurrentMoves, learnInfo.IncenseMoves, info);
         }
-        private static void ParseMovesByGeneration(PKM pkm, CheckMoveResult[] res, int gen, LegalInfo info, LearnInfo learnInfo)
+        private static void ParseMovesByGeneration(PKM pkm, IList<CheckMoveResult> res, int gen, LegalInfo info, LearnInfo learnInfo)
         {
             var moves = learnInfo.Source.CurrentMoves;
             bool native = gen == pkm.Format;
@@ -327,7 +320,7 @@ namespace PKHeX.Core
                 if (res[m].Valid && gen == 1)
                 {
                     learnInfo.Gen1Moves.Add(m);
-                    if (learnInfo.Gen2PreevoMoves.Any())
+                    if (learnInfo.Gen2PreevoMoves.Count != 0)
                         learnInfo.MixedGen12NonTradeback = true;
                 }
 
@@ -366,14 +359,14 @@ namespace PKHeX.Core
             // Also check if the base egg moves is a non tradeback move
             for (int m = 0; m < 4; m++)
             {
-                if (res[m]?.Valid ?? false) // Skip valid move
+                if (IsCheckValid(res[m])) // already validated
                     continue;
                 if (moves[m] == 0)
                     continue;
                 if (!learnInfo.Source.EggLevelUpSource.Contains(moves[m])) // Check if contains level-up egg moves from parents
                     continue;
 
-                if (learnInfo.IsGen2Pkm && learnInfo.Gen1Moves.Any() && moves[m] > Legal.MaxMoveID_1)
+                if (learnInfo.IsGen2Pkm && learnInfo.Gen1Moves.Count != 0 && moves[m] > Legal.MaxMoveID_1)
                 {
                     res[m] = new CheckMoveResult(MoveSource.InheritLevelUp, gen, Severity.Invalid, V334, CheckIdentifier.Move);
                     learnInfo.MixedGen12NonTradeback = true;
@@ -401,7 +394,7 @@ namespace PKHeX.Core
                 {
                     // To learn exclusive generation 1 moves the pokemon was tradeback, but it can't be trade to generation 1
                     // without removing moves above MaxMoveID_1, egg moves above MaxMoveID_1 and gen 1 moves are incompatible
-                    if (learnInfo.IsGen2Pkm && learnInfo.Gen1Moves.Any() && moves[m] > Legal.MaxMoveID_1)
+                    if (learnInfo.IsGen2Pkm && learnInfo.Gen1Moves.Count != 0 && moves[m] > Legal.MaxMoveID_1)
                     {
                         res[m] = new CheckMoveResult(MoveSource.EggMove, gen, Severity.Invalid, V334, CheckIdentifier.Move) { Flag = true };
                         learnInfo.MixedGen12NonTradeback = true;
@@ -418,7 +411,7 @@ namespace PKHeX.Core
 
                 if (!learnInfo.Source.EggMoveSource.Contains(moves[m]))
                 {
-                    if (learnInfo.IsGen2Pkm && learnInfo.Gen1Moves.Any() && moves[m] > Legal.MaxMoveID_1)
+                    if (learnInfo.IsGen2Pkm && learnInfo.Gen1Moves.Count != 0 && moves[m] > Legal.MaxMoveID_1)
                     {
                         res[m] = new CheckMoveResult(MoveSource.SpecialEgg, gen, Severity.Invalid, V334, CheckIdentifier.Move) { Flag = true };
                         learnInfo.MixedGen12NonTradeback = true;
@@ -436,11 +429,11 @@ namespace PKHeX.Core
             // A pokemon could have normal egg moves and regular egg moves
             // Only if all regular egg moves are event egg moves or all event egg moves are regular egg moves
             var RegularEggMovesLearned = learnInfo.EggMovesLearned.Union(learnInfo.LevelUpEggMoves).ToList();
-            if (RegularEggMovesLearned.Any() && learnInfo.EventEggMoves.Any())
+            if (RegularEggMovesLearned.Count != 0 && learnInfo.EventEggMoves.Count != 0)
             {
                 // Moves that are egg moves or event egg moves but not both
                 var IncompatibleEggMoves = RegularEggMovesLearned.Except(learnInfo.EventEggMoves).Union(learnInfo.EventEggMoves.Except(RegularEggMovesLearned)).ToList();
-                if (!IncompatibleEggMoves.Any())
+                if (IncompatibleEggMoves.Count == 0)
                     return;
                 foreach (int m in IncompatibleEggMoves)
                 {
@@ -453,7 +446,7 @@ namespace PKHeX.Core
                 }
             }
             // If there is no incompatibility with event egg check that there is no inherited move in gift eggs and event eggs
-            else if (RegularEggMovesLearned.Any() && (pkm.WasGiftEgg || pkm.WasEventEgg))
+            else if (RegularEggMovesLearned.Count != 0 && (pkm.WasGiftEgg || pkm.WasEventEgg))
             {
                 foreach (int m in RegularEggMovesLearned)
                 {
@@ -479,7 +472,7 @@ namespace PKHeX.Core
                         incompatible.Add(54);
                     if (moves.Contains(114))
                         incompatible.Add(114);
-                    if (incompatible.Any())
+                    if (incompatible.Count != 0)
                         incompatible.Add(151);
                     break;
 
@@ -559,7 +552,7 @@ namespace PKHeX.Core
                 bool native = gen == pkm.Format;
                 for (int m = 0; m < 4; m++)
                 {
-                    if (res[m]?.Valid ?? false)
+                    if (IsCheckValid(res[m])) // already validated
                         continue;
 
                     if (!ShedinjaEvoMoves[gen].Contains(moves[m]))
@@ -620,21 +613,21 @@ namespace PKHeX.Core
             for (int m = 0; m < 4; m++)
                 res[m] = new CheckMoveResult(res[m], Severity.Invalid, string.Format(V385, SpeciesStrings[pkm.Species]), CheckIdentifier.Move);
         }
-        private static void GetHMCompatibility(PKM pkm, int[] moves, int gen, IReadOnlyList<CheckResult> res, out bool[] HMLearned, out bool KnowDefogWhirlpool)
+        private static void GetHMCompatibility(PKM pkm, IReadOnlyList<CheckResult> res, int gen, IReadOnlyList<int> moves, out bool[] HMLearned, out bool KnowDefogWhirlpool)
         {
             HMLearned = new bool[4];
             // Check if pokemon knows HM moves from generation 3 and 4 but are not valid yet, that means it cant learn the HMs in future generations
             if (gen == 4 && pkm.Format > 4)
             {
-                IsHMSource(ref HMLearned, Legal.HM_4_RemovePokeTransfer);
+                IsHMSource(HMLearned, Legal.HM_4_RemovePokeTransfer);
                 KnowDefogWhirlpool = moves.Where((m, i) => IsDefogWhirl(m) && IsCheckInvalid(res[i])).Count() == 2;
                 return;
             }
             KnowDefogWhirlpool = false;
             if (gen == 3 && pkm.Format > 3)
-                IsHMSource(ref HMLearned, Legal.HM_3);
+                IsHMSource(HMLearned, Legal.HM_3);
 
-            void IsHMSource(ref bool[] flags, ICollection<int> source)
+            void IsHMSource(IList<bool> flags, ICollection<int> source)
             {
                 for (int i = 0; i < 4; i++)
                     flags[i] = IsCheckInvalid(res[i]) && source.Contains(moves[i]);

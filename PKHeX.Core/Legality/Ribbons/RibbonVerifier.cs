@@ -23,12 +23,10 @@ namespace PKHeX.Core
         }
         internal static bool GetIncorrectRibbonsEgg(PKM pkm, object encounterContent)
         {
-            var event3 = encounterContent as IRibbonSetEvent3;
-            var event4 = encounterContent as IRibbonSetEvent4;
             var RibbonNames = ReflectUtil.GetPropertiesStartWithPrefix(pkm.GetType(), "Ribbon");
-            if (event3 != null)
+            if (encounterContent is IRibbonSetEvent3 event3)
                 RibbonNames = RibbonNames.Except(event3.RibbonNames());
-            if (event4 != null)
+            if (encounterContent is IRibbonSetEvent4 event4)
                 RibbonNames = RibbonNames.Except(event4.RibbonNames());
 
             foreach (object RibbonValue in RibbonNames.Select(RibbonName => ReflectUtil.GetValue(pkm, RibbonName)))
@@ -105,7 +103,7 @@ namespace PKHeX.Core
             }
             if (pkm is IRibbonSetCommon6 s6)
             {
-                artist = s6.RibbonCountMemoryContest > 4;
+                artist = s6.RibbonCountMemoryContest >= 4;
                 bool inhabited6 = 3 <= gen && gen <= 6;
 
                 var iterate = inhabited6
@@ -255,7 +253,7 @@ namespace PKHeX.Core
             {
                 if (s7.RibbonBattleRoyale)
                     yield return new RibbonResult(nameof(s7.RibbonBattleRoyale));
-                if (s7.RibbonBattleTreeGreat)
+                if (s7.RibbonBattleTreeGreat && !(pkm.USUM || !pkm.IsUntraded))
                     yield return new RibbonResult(nameof(s7.RibbonBattleTreeGreat));
                 if (s7.RibbonBattleTreeMaster)
                     yield return new RibbonResult(nameof(s7.RibbonBattleTreeMaster));

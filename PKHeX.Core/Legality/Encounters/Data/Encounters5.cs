@@ -37,11 +37,15 @@ namespace PKHeX.Core
             MarkB2W2SwarmSlots(SlotsW2_Swarm);
             MarkG5HiddenGrottoSlots(SlotsB2_HiddenGrotto);
             MarkG5HiddenGrottoSlots(SlotsW2_HiddenGrotto);
+            MarkEncounterAreaArray(SlotsB_Swarm, SlotsW_Swarm, SlotsB2_Swarm, SlotsW2_Swarm, SlotsB2_HiddenGrotto, SlotsW2_HiddenGrotto, WhiteForestSlot);
 
             SlotsB = AddExtraTableSlots(BSlots, SlotsB_Swarm);
             SlotsW = AddExtraTableSlots(WSlots, SlotsW_Swarm, WhiteForestSlot);
             SlotsB2 = AddExtraTableSlots(B2Slots, SlotsB2_Swarm, SlotsB2_HiddenGrotto);
             SlotsW2 = AddExtraTableSlots(W2Slots, SlotsW2_Swarm, SlotsW2_HiddenGrotto);
+
+            MarkEncountersGeneration(5, SlotsB, SlotsW, SlotsB2, SlotsW2);
+            MarkEncountersGeneration(5, StaticB, StaticW, StaticB2, StaticW2, TradeGift_BW, TradeGift_B2W2);
         }
 
         private static void MarkBWSwarmSlots(EncounterArea[] Areas)
@@ -542,8 +546,8 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 646, Level = 75, Location = 61,}, //Kyurem @ Giant Chasm
             //Event
             new EncounterStatic { Species = 494, Level = 15, Location = 62, Shiny = false}, // Victini @ Liberty Garden
-            new EncounterStatic { Species = 570, Level = 10, Location = 08, Gender = 0, }, // Zorua @ Castelia City
-            new EncounterStatic { Species = 571, Level = 25, Location = 72, Gender = 1, }, // Zoroark @ Lostlorn Forest
+            new EncounterStatic { Species = 570, Level = 10, Location = 08, Shiny = false, Gender = 0, }, // Zorua @ Castelia City
+            new EncounterStatic { Species = 571, Level = 25, Location = 72, Shiny = false, Gender = 1, }, // Zoroark @ Lostlorn Forest
         };
 
         private static readonly EncounterStatic[] Encounter_BW = Encounter_BW_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_BW)).Concat(Encounter_BW_Regular).ToArray();
@@ -609,21 +613,21 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 644, Level = 70, Location = 039, Shiny = false, Version = GameVersion.B2, }, // Zekrom @ Dragonspiral Tower
             new EncounterStatic { Species = 646, Level = 70, Location = 061, Form = 0}, // Kyurem @ Giant Chasm
             //N's Pokemon
-            new EncounterStatic { Species = 509, Level = 07, Location = 15, NSparkle = true, Ability = 2, Nature = Nature.Timid }, //Purloin @ Route 2
-            new EncounterStatic { Species = 519, Level = 13, Location = 33, NSparkle = true, Ability = 2, Nature = Nature.Sassy }, //Pidove @ Pinwheel Forest
-            new EncounterStatic { Species = 532, Level = 13, Location = 33, NSparkle = true, Ability = 1, Nature = Nature.Rash }, //Timburr @ Pinwheel Forest
-            new EncounterStatic { Species = 535, Level = 13, Location = 33, NSparkle = true, Ability = 2, Nature = Nature.Modest }, //Tympole @ Pinwheel Forest
-            new EncounterStatic { Species = 527, Level = 55, Location = 53, NSparkle = true, Ability = 1, Nature = Nature.Timid }, //Woobat @ Wellspring Cave
-            new EncounterStatic { Species = 551, Level = 22, Location = 34, NSparkle = true, Ability = 2, Nature = Nature.Docile }, //Sandile @ Desert Resort
-            new EncounterStatic { Species = 554, Level = 22, Location = 34, NSparkle = true, Ability = 1, Nature = Nature.Naive }, //Darumaka @ Desert Resort
-            new EncounterStatic { Species = 555, Level = 35, Location = 34, NSparkle = true, Ability = 4, Nature = Nature.Calm }, //Darmanitan @ Desert Resort
-            new EncounterStatic { Species = 559, Level = 22, Location = 34, NSparkle = true, Ability = 1, Nature = Nature.Lax }, //Scaggy @ Desert Resort
-            new EncounterStatic { Species = 561, Level = 22, Location = 34, NSparkle = true, Ability = 2, Nature = Nature.Gentle }, //Sigilyph @ Desert Resort
-            new EncounterStatic { Species = 525, Level = 28, Location = 37, NSparkle = true, Ability = 1, Nature = Nature.Naive }, //Boldore @ Chargestone Cave
-            new EncounterStatic { Species = 595, Level = 28, Location = 37, NSparkle = true, Ability = 2, Nature = Nature.Docile }, //Joltik @ Chargestone Cave
-            new EncounterStatic { Species = 597, Level = 28, Location = 37, NSparkle = true, Ability = 1, Nature = Nature.Bashful }, //Ferroseed @ Chargestone Cave
-            new EncounterStatic { Species = 599, Level = 28, Location = 37, NSparkle = true, Ability = 1, Nature = Nature.Rash }, //Klink @ Chargestone Cave
-            new EncounterStatic { Species = 570, Level = 25, Location = 10, NSparkle = true, Ability = 1, Nature = Nature.Hasty, Gift = true} //N's Zorua @ Driftveil City
+            new EncounterStaticPID { Species = 509, Level = 07, Location = 15, NSparkle = true, Ability = 2, PID = 0xFF01007F, Nature = Nature.Timid }, // Purloin @ Route 2
+            new EncounterStaticPID { Species = 519, Level = 13, Location = 33, NSparkle = true, Ability = 2, PID = 0xFF01007F, Nature = Nature.Sassy }, // Pidove @ Pinwheel Forest
+            new EncounterStaticPID { Species = 532, Level = 13, Location = 33, NSparkle = true, Ability = 1, PID = 0xFF00003F, Nature = Nature.Rash }, // Timburr @ Pinwheel Forest
+            new EncounterStaticPID { Species = 535, Level = 13, Location = 33, NSparkle = true, Ability = 2, PID = 0xFF01007F, Nature = Nature.Modest }, // Tympole @ Pinwheel Forest
+            new EncounterStaticPID { Species = 527, Level = 55, Location = 53, NSparkle = true, Ability = 1, PID = 0xFF00007F, Nature = Nature.Timid }, // Woobat @ Wellspring Cave
+            new EncounterStaticPID { Species = 551, Level = 22, Location = 34, NSparkle = true, Ability = 2, PID = 0xFF01007F, Nature = Nature.Docile }, // Sandile @ Desert Resort
+            new EncounterStaticPID { Species = 554, Level = 22, Location = 34, NSparkle = true, Ability = 1, PID = 0xFF00007F, Nature = Nature.Naive }, // Darumaka @ Desert Resort
+            new EncounterStaticPID { Species = 555, Level = 35, Location = 34, NSparkle = true, Ability = 4, PID = 0xFF00007F, Nature = Nature.Calm }, // Darmanitan @ Desert Resort
+            new EncounterStaticPID { Species = 559, Level = 22, Location = 34, NSparkle = true, Ability = 1, PID = 0xFF00007F, Nature = Nature.Lax }, // Scraggy @ Desert Resort
+            new EncounterStaticPID { Species = 561, Level = 22, Location = 34, NSparkle = true, Ability = 2, PID = 0xFF01007F, Nature = Nature.Gentle }, // Sigilyph @ Desert Resort
+            new EncounterStaticPID { Species = 525, Level = 28, Location = 37, NSparkle = true, Ability = 1, PID = 0xFF00007F, Nature = Nature.Naive }, // Boldore @ Chargestone Cave
+            new EncounterStaticPID { Species = 595, Level = 28, Location = 37, NSparkle = true, Ability = 2, PID = 0xFF01007F, Nature = Nature.Docile }, // Joltik @ Chargestone Cave
+            new EncounterStaticPID { Species = 597, Level = 28, Location = 37, NSparkle = true, Ability = 1, PID = 0xFF00007F, Nature = Nature.Bashful }, // Ferroseed @ Chargestone Cave
+            new EncounterStaticPID { Species = 599, Level = 28, Location = 37, NSparkle = true, Ability = 1, PID = 0xFF000000, Nature = Nature.Rash }, // Klink @ Chargestone Cave
+            new EncounterStaticPID { Species = 570, Level = 25, Location = 10, NSparkle = true, Ability = 1, PID = 0xFF00001F, Nature = Nature.Hasty, Gift = true} // N's Zorua @ Driftveil City
         };
 
         private static readonly EncounterStatic[] Encounter_B2W2 = Encounter_DreamRadar.SelectMany(e => e.DreamRadarClone()).Concat(Encounter_B2W2_Regular).ToArray();
@@ -633,13 +637,13 @@ namespace PKHeX.Core
 
         internal static readonly EncounterTrade[] TradeGift_BW =
         {
-            new EncounterTradePID { Species = 548, Level = 15, Ability = 1, TID = 39922, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,20,31,20}, PID = 0x64000000, Version = GameVersion.B, }, // Petilil
-            new EncounterTradePID { Species = 546, Level = 15, Ability = 1, TID = 39922, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,20,31,20}, PID = 0x6400007E, Version = GameVersion.W, }, // Cottonee
-            new EncounterTradePID { Species = 550, Level = 25, Ability = 1, TID = 27646, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, PID = 0x9400007F, Version = GameVersion.B, Form = 0, }, // Basculin-Red
-            new EncounterTradePID { Species = 550, Level = 25, Ability = 1, TID = 27646, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, PID = 0x9400007F, Version = GameVersion.W, Form = 1, }, // Basculin-Blue
-            new EncounterTradePID { Species = 587, Level = 30, Ability = 1, TID = 11195, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,20,31,20,20,20}, PID = 0xD400007F, }, // Emolga
-            new EncounterTradePID { Species = 479, Level = 60, Ability = 1, TID = 54673, SID = 00000, OTGender = 1, Gender = 2, IVs = new[] {20,20,20,20,20,31}, PID = 0x2A000000, }, // Rotom
-            new EncounterTradePID { Species = 446, Level = 60, Ability = 2, TID = 40217, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {31,20,20,20,20,20}, PID = 0x6200001F, }, // Munchlax
+            new EncounterTradePID { Species = 548, Level = 15, Ability = 1, TID = 39922, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,20,31,20}, PID = 0x64000000, Nature = Nature.Modest, Version = GameVersion.B, }, // Petilil
+            new EncounterTradePID { Species = 546, Level = 15, Ability = 1, TID = 39922, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,20,31,20}, PID = 0x6400007E, Nature = Nature.Modest, Version = GameVersion.W, }, // Cottonee
+            new EncounterTradePID { Species = 550, Level = 25, Ability = 1, TID = 27646, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, PID = 0x9400007F, Nature = Nature.Adamant, Version = GameVersion.B, Form = 0, }, // Basculin-Red
+            new EncounterTradePID { Species = 550, Level = 25, Ability = 1, TID = 27646, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, PID = 0x9400007F, Nature = Nature.Adamant, Version = GameVersion.W, Form = 1, }, // Basculin-Blue
+            new EncounterTradePID { Species = 587, Level = 30, Ability = 1, TID = 11195, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,20,31,20,20,20}, PID = 0xD400007F, Nature = Nature.Lax, }, // Emolga
+            new EncounterTradePID { Species = 479, Level = 60, Ability = 1, TID = 54673, SID = 00000, OTGender = 1, Gender = 2, IVs = new[] {20,20,20,20,20,31}, PID = 0x2A000000, Nature = Nature.Gentle, }, // Rotom
+            new EncounterTradePID { Species = 446, Level = 60, Ability = 2, TID = 40217, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {31,20,20,20,20,20}, PID = 0x6200001F, Nature = Nature.Serious, }, // Munchlax
         };
 
         internal static readonly EncounterTrade[] TradeGift_B2W2_Regular =

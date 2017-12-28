@@ -6,7 +6,7 @@ namespace PKHeX.Core
     public static partial class Legal
     {
         internal const int MaxSpeciesID_7 = 802;
-        internal const int MaxMoveID_7 = 720;
+        internal const int MaxMoveID_7 = 719;
         internal const int MaxItemID_7 = 920;
         internal const int MaxAbilityID_7 = 232;
         internal const int MaxBallID_7 = 0x1A; // 26
@@ -136,7 +136,7 @@ namespace PKHeX.Core
             .Zip(Pouch_ZCrystalHeld_USUM, (k, v) => new { Key = (int)k, Value = (int)v })
             .ToDictionary(x => x.Key, x => x.Value);
         internal static readonly ushort[] HeldItems_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_SM).ToArray();
-        internal static readonly ushort[] HeldItems_USUM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_USUM).ToArray();
+        internal static readonly ushort[] HeldItems_USUM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_USUM).Concat(Pouch_Roto_USUM).ToArray();
 
         private static readonly HashSet<int> WildPokeballs7 = new HashSet<int> {
             0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
@@ -199,7 +199,7 @@ namespace PKHeX.Core
             276, 277, // Swellow
             451, 452, // Drapion
             531, // Audino
-            695, // Heliolisk
+            694, 695, // Heliolisk
             273, 274, 275, // Nuzleaf
             325, 326, // Gumpig
             459, 460, // Abomasnow
@@ -212,11 +212,18 @@ namespace PKHeX.Core
             618, // Stunfisk
             418, 419, // Floatzel
             194, 195, // Quagsire
+
+            100, 101 // Voltorb & Electrode
         };
         public static readonly HashSet<int> PastGenAlolanNativesUncapturable = new HashSet<int>
         {
             142, // Aerodacyl
-            137, 233, 474 // Porygon++
+            137, 233, 474, // Porygon++
+            138, 139, 140, 141,  // Gen1 Fossils
+            345, 346, 347, 348,  // Gen3 Fossils
+            408, 409, 410, 411,  // Gen4 Fossils
+            564, 565, 566, 567,  // Gen5 Fossils
+            696, 697, 698, 699,  // Gen6 Fossils
         };
 
         internal static readonly HashSet<int> PastGenAlolanScans = new HashSet<int>
@@ -320,12 +327,19 @@ namespace PKHeX.Core
             782,
 
             // USUM Additions
-            023, 086, 108, 138, 140, 163, 177, 179, 190, 204,
+            023, 086, 108, 163, 177, 179, 190, 204,
             206, 214, 223, 228, 238, 246, 303, 309, 341, 343,
-            345, 347, 352, 353, 357, 366, 427, 439, 458, 550,
+            352, 353, 357, 366, 427, 439, 458, 550,
             559, 570, 572, 592, 605, 619, 621, 622, 624, 636,
-            667, 669, 676, 686, 690, 692, 696, 698, 701, 702,
-            714
+            667, 669, 676, 686, 690, 692, 701, 702,
+            714,
+
+            // Wormhole
+            333, 193, 561, 580, 276, 451, 531, 694, 273, 325,
+            459, 307, 449, 557, 218, 688, 270, 618, 418, 194,
+
+            // Static Encounters
+            100,
         };
         internal static readonly HashSet<int> AlolanCaptureNoHeavyBall = new HashSet<int> { 374, 785, 786, 787, 788}; // Beldum & Tapus
         internal static readonly HashSet<int> Inherit_ApricornMale7 = new HashSet<int>
@@ -546,10 +560,6 @@ namespace PKHeX.Core
             069, // White Flute
             070, // Shoal Salt
             071, // Shoal Shell
-            099, // Root Fossil
-            100, // Claw Fossil
-            101, // Helix Fossil
-            102, // Dome Fossil
             103, // Old Amber
             111, // Odd Keystone
             164, // Razz Berry
@@ -600,8 +610,6 @@ namespace PKHeX.Core
             588, // Relic Band
             589, // Relic Statue
             590, // Relic Crown
-            710, // Jaw Fossil
-            711, // Sail Fossil
             715, // Fairy Gem
         };
         #endregion
