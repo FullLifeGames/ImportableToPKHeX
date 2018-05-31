@@ -307,6 +307,11 @@ namespace PKHeX.WinForms
                     special = true;
                     mainMenuOpen(metDict["moltres (morning sun)"]);
                 }
+                else if (poke.Equals("Moltres") && ability.Contains("Flame Body"))
+                {
+                    special = true;
+                    mainMenuOpen(metDict["moltres (flame body)"]);
+                }
                 else if (poke.Equals("Blastoise") && (move1.Contains("Celebate") || move2.Contains("Celebate") || move3.Contains("Celebate") || move4.Contains("Celebate")))
                 {
                     special = true;
@@ -402,6 +407,10 @@ namespace PKHeX.WinForms
                         mainMenuOpen(pokegenfolder + "defog.ek6");
                     }
                     else if ((move1.Equals("Whirlpool") || move2.Equals("Whirlpool") || move3.Equals("Whirlpool") || move4.Equals("Whirlpool")) && (poke.Contains("Seel")))
+                    {
+                        mainMenuOpen(pokegenfolder + "defog.ek6");
+                    }
+                    else if ((move1.Equals("Sucker Punch") || move2.Equals("Sucker Punch") || move3.Equals("Sucker Punch") || move4.Equals("Sucker Punch")) && (poke.Contains("Lanturn")))
                     {
                         mainMenuOpen(pokegenfolder + "defog.ek6");
                     }
