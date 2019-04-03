@@ -1068,11 +1068,9 @@ namespace PKHeX.WinForms
                 extractPath = extractPath + "\\";
             }
 
-            string path = extractPath + pokemon + "_" + item + "_" + ability + "_" + nature + "_" + move1 + "_" + move2 + "_" + move3 + "_" + move4 + ".ekx";
+            string path = extractPath + pokemon.Replace(":", "") + "_" + item + "_" + ability + "_" + nature + "_" + move1 + "_" + move2 + "_" + move3 + "_" + move4 + ".ekx";
             //Debug Help
-            Console.WriteLine(pokemon + "_" + item + "_" + ability + "_" + nature + "_" + move1 + "_" + move2 + "_" + move3 + "_" + move4);
-
-            string ext = ".ekx";
+            Console.WriteLine(pokemon.Replace(":", "") + "_" + item + "_" + ability + "_" + nature + "_" + move1 + "_" + move2 + "_" + move3 + "_" + move4);
 
             File.WriteAllBytes(path, pkm.EncryptedPartyData);
         }
