@@ -1,3 +1,5 @@
+[OUTDATED], use AutoLegalityMod from: https://github.com/architdate/PKHeX-Plugins
+
 # ImportableToPKHeX
 A Pokemon Showdown Importable To Legit PKHeX Files Converter
 
